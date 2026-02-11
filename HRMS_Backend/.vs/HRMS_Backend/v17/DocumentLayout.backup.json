@@ -1,0 +1,729 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\hrms_backend\\controllers\\masterdatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|solutionrelative:controllers\\masterdatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\designationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\interfaces\\idesignationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\designationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\genderdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D02645-05B5-4934-B2D9-9563DF03B383}|..\\DataAccessLayer\\DataAccessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\dataaccesslayer\\dbcontext\\hrmscontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\genderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\HR\\AppData\\Local\\Temp\\.vsdbgsrc\\0e599f47268ea62b9af937dc43e1103c8accf8988ef11d1cec2bae5c647caaf7\\TaskAwaiter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\interfaces\\igenderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\companynewsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\hrms_backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\hrms_backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\hrms_backend\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|solutionrelative:controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\employeeresignationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\updateresignationstatusrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\interfaces\\iemployeeresignationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\interfaces\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\employeeresignationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\recruitmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\hrms_backend\\controllers\\recruitmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|solutionrelative:controllers\\recruitmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\interfaces\\irecruitmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\candidatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\hrms_backend\\controllers\\usermanagementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|solutionrelative:controllers\\usermanagementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\userservice .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D02645-05B5-4934-B2D9-9563DF03B383}|..\\DataAccessLayer\\DataAccessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\dataaccesslayer\\dbcontext\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\regionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\companydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\interfaces\\iregionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\regiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\companyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\interfaces\\icompanyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\workfromhomerequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\hrms_backend\\controllers\\attendancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E251F59-A28C-42A9-B86A-064FB6948BC5}|HRMS_Backend.csproj|solutionrelative:controllers\\attendancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\interfaces\\iworkfromhomerequestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\wfhrequestcreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\missedpunchservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\bulkapproverejectworkfromhomedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\updateworkfromhomerequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\wfhrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\dtos\\wfhapprovaldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9ED16FC8-004A-47B5-B556-65EE44DEE523}|..\\BusinessLayer\\BusinessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\businesslayer\\implementations\\shiftallocationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D02645-05B5-4934-B2D9-9563DF03B383}|..\\DataAccessLayer\\DataAccessLayer.csproj|d:\\cortracker projects\\hrms_git\\hrms_dev_api\\dataaccesslayer\\dbcontext\\missedpunchrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IDesignationService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IDesignationService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Interfaces\\IDesignationService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IDesignationService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Interfaces\\IDesignationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T12:26:49.137Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DesignationService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\DesignationService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\DesignationService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\DesignationService.cs*",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\DesignationService.cs*",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAlwG8AAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T12:26:08.739Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DesignationDTO.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\DesignationDTO.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\DesignationDTO.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\DesignationDTO.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\DesignationDTO.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAwwBMAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T12:24:28.577Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CompanyNewsDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\CompanyNewsDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\CompanyNewsDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\CompanyNewsDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\CompanyNewsDto.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAA8wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T08:56:22.677Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "EmployeeResignationService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\EmployeeResignationService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\EmployeeResignationService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\EmployeeResignationService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\EmployeeResignationService.cs",
+              "ViewState": "AgIAANIAAAAAAAAAAAAkwN4AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T13:00:55.693Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UpdateResignationStatusRequest.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\UpdateResignationStatusRequest.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\UpdateResignationStatusRequest.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\UpdateResignationStatusRequest.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\UpdateResignationStatusRequest.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAxwAoAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T12:59:06.183Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MasterDataController.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Controllers\\MasterDataController.cs",
+              "RelativeDocumentMoniker": "Controllers\\MasterDataController.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Controllers\\MasterDataController.cs",
+              "RelativeToolTip": "Controllers\\MasterDataController.cs",
+              "ViewState": "AgIAAKQAAAAAAAAAAAAgwAIBAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T09:20:11.678Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GenderService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\GenderService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\GenderService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\GenderService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\GenderService.cs",
+              "ViewState": "AgIAAHkAAAAAAAAAAAArwIcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T09:21:40.645Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HRMSContext.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\DataAccessLayer\\DBContext\\HRMSContext.cs",
+              "RelativeDocumentMoniker": "..\\DataAccessLayer\\DBContext\\HRMSContext.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\DataAccessLayer\\DBContext\\HRMSContext.cs",
+              "RelativeToolTip": "..\\DataAccessLayer\\DBContext\\HRMSContext.cs",
+              "ViewState": "AgIAANMAAAAAAAAAAAAUwNcAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T11:12:44.051Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GenderDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\GenderDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\GenderDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\GenderDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\GenderDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAqwAgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T10:56:46.771Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TaskAwaiter.cs",
+              "DocumentMoniker": "C:\\Users\\HR\\AppData\\Local\\Temp\\.vsdbgsrc\\0e599f47268ea62b9af937dc43e1103c8accf8988ef11d1cec2bae5c647caaf7\\TaskAwaiter.cs",
+              "ToolTip": "C:\\Users\\HR\\AppData\\Local\\Temp\\.vsdbgsrc\\0e599f47268ea62b9af937dc43e1103c8accf8988ef11d1cec2bae5c647caaf7\\TaskAwaiter.cs [Read Only]",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAjwLAAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T11:50:50.595Z",
+              "EditorCaption": " [Read Only]"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IGenderService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IGenderService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Interfaces\\IGenderService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IGenderService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Interfaces\\IGenderService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABEAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T11:09:22.637Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "EmployeeResignationDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\EmployeeResignationDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\EmployeeResignationDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\EmployeeResignationDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\EmployeeResignationDto.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAmwC0AAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T12:39:10.6Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABcAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T11:03:21.143Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABMAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-30T11:11:12.192Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\EmailService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\EmailService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\EmailService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\EmailService.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAuwCQAAABzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T13:02:55.902Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "IEmailService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IEmailService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Interfaces\\IEmailService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IEmailService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Interfaces\\IEmailService.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAABmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T13:04:17.515Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "EmployeeController.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Controllers\\EmployeeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\EmployeeController.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Controllers\\EmployeeController.cs",
+              "RelativeToolTip": "Controllers\\EmployeeController.cs",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAqwJAAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T13:07:50.798Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "IEmployeeResignationService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IEmployeeResignationService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Interfaces\\IEmployeeResignationService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IEmployeeResignationService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Interfaces\\IEmployeeResignationService.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAUwCcAAABpAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T13:05:34.574Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "RecruitmentController.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Controllers\\RecruitmentController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RecruitmentController.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Controllers\\RecruitmentController.cs",
+              "RelativeToolTip": "Controllers\\RecruitmentController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA4wG4AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T12:31:44.122Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "IRecruitmentService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IRecruitmentService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Interfaces\\IRecruitmentService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IRecruitmentService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Interfaces\\IRecruitmentService.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAA7wD8AAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T12:30:47.284Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "RecruitmentService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\RecruitmentService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\RecruitmentService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\RecruitmentService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\RecruitmentService.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAowA0AAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T12:28:39.141Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CandidateDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\CandidateDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\CandidateDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\CandidateDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\CandidateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T12:26:31.07Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IUserService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Interfaces\\IUserService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IUserService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Interfaces\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T10:13:27.101Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "UserDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\UserDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\UserDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\UserDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\UserDto.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAiwBEAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T10:00:32.15Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\DataAccessLayer\\DBContext\\User.cs",
+              "RelativeDocumentMoniker": "..\\DataAccessLayer\\DBContext\\User.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\DataAccessLayer\\DBContext\\User.cs",
+              "RelativeToolTip": "..\\DataAccessLayer\\DBContext\\User.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAwwDcAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T10:00:51.738Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "CompanyDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\CompanyDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\CompanyDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\CompanyDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\CompanyDto.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAA5wBAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T12:04:39.4Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "UserManagementController.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Controllers\\UserManagementController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserManagementController.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Controllers\\UserManagementController.cs",
+              "RelativeToolTip": "Controllers\\UserManagementController.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAIAywC4BAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-02T09:24:45.678Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "UserService .cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\UserService .cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\UserService .cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\UserService .cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\UserService .cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAWwB0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-02T09:25:11.401Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "CompanyService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\CompanyService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\CompanyService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\CompanyService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\CompanyService.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwJMAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T12:05:03.499Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "RegionService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\RegionService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\RegionService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\RegionService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\RegionService.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAjwF8AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T12:20:46.556Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "RegionDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\RegionDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\RegionDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\RegionDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\RegionDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAqwAoAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T12:21:22.409Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "IRegionService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IRegionService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Interfaces\\IRegionService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IRegionService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Interfaces\\IRegionService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAIAzwA8AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T12:27:41.219Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "WorkFromHomeRequestService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\WorkFromHomeRequestService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\WorkFromHomeRequestService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\WorkFromHomeRequestService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\WorkFromHomeRequestService.cs",
+              "ViewState": "AgIAAGQAAAAAAAAAAAArwGwAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T11:38:23.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "ICompanyService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\ICompanyService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Interfaces\\ICompanyService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\ICompanyService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Interfaces\\ICompanyService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T12:10:57.611Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "WfhRequestCreateDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\WfhRequestCreateDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\WfhRequestCreateDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\WfhRequestCreateDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\WfhRequestCreateDto.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAqwA0AAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T11:24:17.738Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "WfhApprovalDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\WfhApprovalDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\WfhApprovalDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\WfhApprovalDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\WfhApprovalDto.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T11:26:30.248Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "AttendanceController.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Controllers\\AttendanceController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AttendanceController.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\HRMS_Backend\\Controllers\\AttendanceController.cs",
+              "RelativeToolTip": "Controllers\\AttendanceController.cs",
+              "ViewState": "AgIAAFQBAAAAAAAAAAAmwGMBAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T11:05:29.56Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "IWorkFromHomeRequestService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IWorkFromHomeRequestService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Interfaces\\IWorkFromHomeRequestService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Interfaces\\IWorkFromHomeRequestService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Interfaces\\IWorkFromHomeRequestService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T12:24:12.921Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "WfhRequestDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\WfhRequestDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\WfhRequestDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\WfhRequestDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\WfhRequestDto.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAxwBIAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T11:27:06.456Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "UpdateWorkFromHomeRequestDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\UpdateWorkFromHomeRequestDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\UpdateWorkFromHomeRequestDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\UpdateWorkFromHomeRequestDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\UpdateWorkFromHomeRequestDto.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T11:35:19.523Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "BulkApproveRejectWorkFromHomeDto.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\BulkApproveRejectWorkFromHomeDto.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\DTOs\\BulkApproveRejectWorkFromHomeDto.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\DTOs\\BulkApproveRejectWorkFromHomeDto.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\DTOs\\BulkApproveRejectWorkFromHomeDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T11:35:49.334Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "ShiftAllocationService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\ShiftAllocationService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\ShiftAllocationService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\ShiftAllocationService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\ShiftAllocationService.cs",
+              "ViewState": "AgIAAIMAAAAAAAAAAAAAwBQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T11:28:32.832Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "MissedPunchService.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\MissedPunchService.cs",
+              "RelativeDocumentMoniker": "..\\BusinessLayer\\Implementations\\MissedPunchService.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\BusinessLayer\\Implementations\\MissedPunchService.cs",
+              "RelativeToolTip": "..\\BusinessLayer\\Implementations\\MissedPunchService.cs",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAiwHoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T11:39:49.436Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "MissedPunchRequest.cs",
+              "DocumentMoniker": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\DataAccessLayer\\DBContext\\MissedPunchRequest.cs",
+              "RelativeDocumentMoniker": "..\\DataAccessLayer\\DBContext\\MissedPunchRequest.cs",
+              "ToolTip": "D:\\Cortracker projects\\HRMS_GIT\\HRMS_Dev_API\\DataAccessLayer\\DBContext\\MissedPunchRequest.cs",
+              "RelativeToolTip": "..\\DataAccessLayer\\DBContext\\MissedPunchRequest.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAawA8AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T11:16:26.363Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
