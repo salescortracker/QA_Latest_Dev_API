@@ -43,4 +43,12 @@ namespace BusinessLayer.DTOs
         public int? CompanyID { get; set; }
         public int? RegionID { get; set; }
     }
+
+    public class UserProfileDto
+    {
+        public int UserId { get; set; }
+        public string FullName { get; set; } = null!;
+        public int? DepartmentId { get; set; }
+        public string? DepartmentName { get; set; }
+    }
 }
