@@ -1,8 +1,9 @@
-﻿using BusinessLayer.Common;
+using BusinessLayer.Common;
 using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
 using DataAccessLayer.DBContext;
 using DataAccessLayer.Repositories.GeneralRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer.Implementations
 {
@@ -96,51 +97,70 @@ namespace BusinessLayer.Implementations
             return query.Select(g => MapToDto(g)).ToList();
         }
 
-        public async Task<GenderDto> AddGenderAsync(GenderDto dto)
-        { 
-            var entity = new Gender
-            {
-                GenderName = dto.genderName,
-                IsActive = dto.IsActive,
-                CompanyId = dto.companyID,
-                RegionId = dto.regionId   ,
-                UserId=dto.userId
-            };
-            var result = _hRMSContext.Genders.Where(x => x.GenderName.ToLower() == dto.genderName.ToLower()).Count();
-            if (result > 0)
-            {
-                return null;
-            }
+    public async Task<GenderDto> AddGenderAsync(GenderDto dto)
+    {
+      var isDuplicate = await _hRMSContext.Genders
+          .AnyAsync(x =>
+              !x.IsDeleted &&
+              x.CompanyId == dto.companyID &&
+              x.RegionId == dto.regionId &&
+              x.UserId == dto.userId &&
+              x.GenderName.ToLower() == dto.genderName.ToLower());
 
-            await _unitOfWork.Repository<Gender>().AddAsync(entity);
-            await _unitOfWork.CompleteAsync();
+      if (isDuplicate)
+        return null;
 
-            return MapToDto(entity);
-        }
+      var entity = new Gender
+      {
+        GenderName = dto.genderName,
+        IsActive = dto.IsActive,
+        CompanyId = dto.companyID,
+        RegionId = dto.regionId,
+        UserId = dto.userId,
+        CreatedAt = DateTime.UtcNow
+      };
+
+      await _unitOfWork.Repository<Gender>().AddAsync(entity);
+      await _unitOfWork.CompleteAsync();
+
+      return MapToDto(entity);
+    }
+
 
         public async Task<GenderDto> UpdateGenderAsync(GenderDto dto)
         {
-            var entity = await _unitOfWork.Repository<Gender>().GetByIdAsync(dto.genderID);
-            if (entity == null) throw new Exception("Gender not found");
+          var entity = await _unitOfWork.Repository<Gender>()
+              .GetByIdAsync(dto.genderID);
 
-            entity.GenderName = dto.genderName;
-            entity.IsActive = dto.IsActive;
-            entity.CompanyId = dto.companyID;
-            entity.RegionId = dto.regionId;
-            entity.ModifiedAt = DateTime.UtcNow;
+          if (entity == null)
+            throw new Exception("Gender not found");
 
-            var result = _hRMSContext.Genders.Where(x => x.GenderName.ToLower() == dto.genderName.ToLower()).Count();
-            if (result > 0)
-            {
-                return null;
-            }
-            _unitOfWork.Repository<Gender>().Update(entity);
-            await _unitOfWork.CompleteAsync();
+          var isDuplicate = await _hRMSContext.Genders
+              .AnyAsync(x =>
+                  !x.IsDeleted &&
+                  x.GenderId != dto.genderID &&   
+                  x.CompanyId == dto.companyID &&
+                  x.RegionId == dto.regionId &&
+                  x.UserId == dto.userId &&
+                  x.GenderName.ToLower() == dto.genderName.ToLower());
 
-            return MapToDto(entity);
+          if (isDuplicate)
+            return null;
+
+          entity.GenderName = dto.genderName;
+          entity.IsActive = dto.IsActive;
+          entity.CompanyId = dto.companyID;
+          entity.RegionId = dto.regionId;
+          entity.ModifiedAt = DateTime.UtcNow;
+
+          _unitOfWork.Repository<Gender>().Update(entity);
+          await _unitOfWork.CompleteAsync();
+
+          return MapToDto(entity);
         }
 
-        public async Task<bool> DeleteGenderAsync(int id)
+
+    public async Task<bool> DeleteGenderAsync(int id)
         {
             var entity = await _unitOfWork.Repository<Gender>().GetByIdAsync(id);
             if (entity == null)
