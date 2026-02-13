@@ -1,4 +1,5 @@
-﻿using BusinessLayer.DTOs;
+using BusinessLayer;
+using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
 using DataAccessLayer.DBContext;
 using Microsoft.AspNetCore.Mvc;
@@ -13,19 +14,24 @@ namespace HRMS_Backend.Controllers
         private readonly IExpenseService _expenseService;
         private readonly IWebHostEnvironment _env;
         private readonly HRMSContext _context;
+        private readonly IExpenseStatusService _expenseStatusService;
         public ExpensesController(
            IExpenseService expenseService,
-           IWebHostEnvironment env,
+           IWebHostEnvironment env, IExpenseStatusService expenseStatusService,
            HRMSContext context)
         {
-            _expenseService = expenseService;
-            _env = env;
-            _context = context;
+                _expenseService = expenseService;
+                _env = env;
+                _context = context;
+          _expenseStatusService = expenseStatusService;
         }
-        // -------------------------------------------------------------
-        // CREATE EXPENSE
-        // -------------------------------------------------------------
-        [HttpPost("CreateExpense")]
+
+
+    #region 
+    // -------------------------------------------------------------
+    // CREATE EXPENSE
+    // -------------------------------------------------------------
+    [HttpPost("CreateExpense")]
         public async Task<IActionResult> CreateExpense([FromForm] CreateExpenseDto dto)
         {
             try
@@ -224,5 +230,132 @@ namespace HRMS_Backend.Controllers
             }
 
         }
+    #endregion
+
+
+
+
+    //    #region ExpencesStatus
+
+
+    //    [HttpGet("GetExpenseStatus")]
+    //    public async Task<IActionResult> GetExpenseStatus(int companyId, int regionId)
+    //    {
+    //      Console.WriteLine($"Company: {companyId}, Region: {regionId}");
+    //      var data = await _expenseStatusService.GetExpenseStatus(companyId, regionId);
+    //      return Ok(data);
+    //    }
+
+    //    [HttpPost("CreateExpenseStatus")]
+    //    public async Task<IActionResult> CreateExpenseStatus([FromBody] ExpenseStatus model)
+    //    {
+    //      var result = await _expenseStatusService.CreateExpenseStatus(model);
+    //      return Ok(result);
+    //    }
+
+    //    [HttpPut("UpdateExpenseStatus")]
+    //    public async Task<IActionResult> UpdateExpenseStatus([FromBody] ExpenseStatus model)
+    //    {
+    //      var result = await _expenseStatusService.UpdateExpenseStatus(model);
+    //      return Ok(result);
+    //    }
+
+    //    [HttpDelete("DeleteExpenseStatus/{id}")]
+    //    public async Task<IActionResult> DeleteExpenseStatus(int id)
+    //    {
+    //      int userId = 1; // later get from JWT token
+    //      await _expenseStatusService.DeleteExpenseStatus(id, userId);
+
+    //      return Ok(new { message = "Deleted successfully" });
+    //    }
+    //#endregion
+
+
+
+
+            #region ExpensesStatus
+            [HttpGet("GetExpenseStatus")]
+            public async Task<IActionResult> GetExpenseStatus(int companyId, int regionId)
+            {
+              try
+              {
+                var result = await _expenseStatusService.GetExpenseStatus(companyId, regionId);
+                return Ok(result);
+              }
+              catch (Exception ex)
+              {
+                return BadRequest(new { message = ex.Message });
+              }
+            }
+
+
+
+    [HttpPost("CreateExpenseStatus")]
+    public async Task<IActionResult> CreateExpenseStatus(
+    [FromBody] ExpenseStatusDto dto,
+    int userId)
+    {
+      try
+      {
+        var result = await _expenseStatusService.CreateExpenseStatus(dto, userId);
+        return Ok(new { success = true, data = result });
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { success = false, message = ex.Message });
+      }
     }
+
+
+    [HttpPut("UpdateExpenseStatus")]
+        public async Task<IActionResult> UpdateExpenseStatus([FromBody] ExpenseStatusDto dto)
+        {
+          try
+          {
+            int userId = int.Parse(User.FindFirst("UserId")?.Value ?? "1");
+
+            var result = await _expenseStatusService.UpdateExpenseStatus(dto, userId);
+
+            return Ok(new { success = true, data = result, message = "Updated successfully" });
+          }
+          catch (Exception ex)
+          {
+            return BadRequest(new { success = false, message = ex.Message });
+          }
+        }
+
+
+        [HttpDelete("DeleteExpenseStatus/{id}")]
+        public async Task<IActionResult> DeleteExpenseStatus(int id)
+        {
+          try
+          {
+            int userId = int.Parse(User.FindFirst("UserId")?.Value ?? "1");
+
+            await _expenseStatusService.DeleteExpenseStatus(id, userId);
+
+            return Ok(new { success = true, message = "Deleted successfully" });
+          }
+          catch (Exception ex)
+          {
+            return BadRequest(new { success = false, message = ex.Message });
+          }
+        }
+
+
+        [HttpGet("GetExpenseStatusByUser")]
+        public async Task<IActionResult> GetExpenseStatusByUser(int userId)
+        {
+          var data = await _context.ExpenseStatuses
+              .Where(e => e.CreatedBy == userId && !e.IsDeleted)
+              .ToListAsync();
+
+          return Ok(data);
+        }
+
+
+
+
+    #endregion
+  }
 }
