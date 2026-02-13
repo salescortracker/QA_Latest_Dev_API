@@ -165,16 +165,17 @@ namespace HRMS_Backend.Controllers
         #region Designations
         // ✅ GET ALL
         [HttpGet("GetDesignations")]
-        public async Task<IActionResult> GetDesignations()
+        public async Task<IActionResult> GetDesignations(int userId)
         {
             try
             {
                 var result = await _designationService.GetAllAsync();
+                var filtered = result.Data?.Where(d => d.UserId == userId);
 
-                if (result == null )
+                if (filtered == null || !filtered.Any())
                     return NotFound(new { success = false, message = "No designations found." });
 
-                return Ok(new { success = true, message = "Designations retrieved successfully.", data = result });
+                return Ok(new { success = true, message = "Designations retrieved successfully.", data = filtered });
             }
             catch (Exception ex)
             {

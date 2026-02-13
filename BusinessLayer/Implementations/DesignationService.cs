@@ -9,10 +9,12 @@ namespace BusinessLayer.Implementations
     public class DesignationService:IDesignationService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly HRMSContext _hrmscontext;
 
-        public DesignationService(IUnitOfWork unitOfWork)
+        public DesignationService(IUnitOfWork unitOfWork, HRMSContext hrmscontext)
         {
             _unitOfWork = unitOfWork;
+            _hrmscontext = hrmscontext;
         }
 
         public async Task<ApiResponse<IEnumerable<DesignationDTO>>> GetAllAsync()
@@ -27,7 +29,12 @@ namespace BusinessLayer.Implementations
                     RegionID = d.RegionId,
                     DesignationName = d.DesignationName,
                     Description = d.Description,
-                    IsActive = d.IsActive
+                    IsActive = d.IsActive,
+                    UserId = d.UserId,
+                    companyName = d.CompanyId != null? _hrmscontext.Companies.Where(x => x.CompanyId == d.CompanyId).FirstOrDefault().CompanyName:null,
+                    regionName = d.RegionId != null ? _hrmscontext.Regions.Where(x => x.RegionId == d.RegionId).FirstOrDefault().RegionName : null,
+
+
                 });
 
                 return new ApiResponse<IEnumerable<DesignationDTO>>(dto, "Designations retrieved successfully.");
@@ -53,7 +60,8 @@ namespace BusinessLayer.Implementations
                     RegionID = d.RegionId,
                     DesignationName = d.DesignationName,
                     Description = d.Description,
-                    IsActive = d.IsActive
+                    IsActive = d.IsActive,
+                    UserId = d.UserId
                 };
                 return new ApiResponse<DesignationDTO?>(dto, "Designation retrieved.");
             }
@@ -85,7 +93,8 @@ namespace BusinessLayer.Implementations
                     Description = dto.Description,
                     IsActive = dto.IsActive,   
                     CreatedBy=dto.createdBy,   
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    UserId = dto.userId
                 };
 
                 await _unitOfWork.Repository<Designation>().AddAsync(entity);
@@ -98,7 +107,8 @@ namespace BusinessLayer.Implementations
                     RegionID = entity.RegionId,
                     DesignationName = entity.DesignationName,
                     Description = entity.Description,
-                    IsActive = entity.IsActive
+                    IsActive = entity.IsActive,
+                    UserId = entity.UserId
                 };
 
                 return new ApiResponse<DesignationDTO>(resultDto, "Designation created successfully.");
@@ -209,7 +219,8 @@ namespace BusinessLayer.Implementations
                             Description = dto.Description,
                             IsActive = dto.IsActive,
                             CreatedBy = createdBy,
-                            CreatedAt = DateTime.UtcNow
+                            CreatedAt = DateTime.UtcNow,
+                            UserId = dto.userId
                         };
 
                         await _unitOfWork.Repository<Designation>().AddAsync(entity);
