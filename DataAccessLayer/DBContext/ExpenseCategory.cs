@@ -27,6 +27,8 @@ public partial class ExpenseCategory
 
     public DateTime? UpdatedDate { get; set; }
 
+    public int? UserId { get; set; }
+
     public virtual ICollection<ExpenseLimitConfig> ExpenseLimitConfigs { get; set; } = new List<ExpenseLimitConfig>();
 
     public virtual ICollection<Expense> Expenses { get; set; } = new List<Expense>();
