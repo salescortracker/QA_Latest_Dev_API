@@ -15,12 +15,11 @@ namespace BusinessLayer.Implementations
             _context = context;
         }
 
-        public async Task<ApiResponse<IEnumerable<ExpenseCategoryDto>>> GetAllAsync(
-            int companyId, int regionId)
+        public async Task<ApiResponse<IEnumerable<ExpenseCategoryDto>>>
+     GetAllAsync(int userId)
         {
-            var list = await _context.ExpenseCategories
-              //  .Where(x => x.CompanyId == companyId && x.RegionId == regionId)
-                .OrderBy(x => x.SortOrder)
+            var data = await _context.ExpenseCategories
+                .Where(x => x.UserId == userId)
                 .Select(x => new ExpenseCategoryDto
                 {
                     ExpenseCategoryID = x.ExpenseCategoryId,
@@ -33,10 +32,18 @@ namespace BusinessLayer.Implementations
                 })
                 .ToListAsync();
 
-            return new ApiResponse<IEnumerable<ExpenseCategoryDto>>(list);
+            return new ApiResponse<IEnumerable<ExpenseCategoryDto>>
+            {
+                Success = true,
+                Data = data,
+                Message = "Expense categories fetched successfully"
+            };
+
         }
 
-        public async Task<ApiResponse<bool>> AddAsync(ExpenseCategoryDto dto)
+
+        public async Task<ApiResponse<bool>> AddAsync(ExpenseCategoryDto dto, int userId)
+
         {
             var entity = new ExpenseCategory
             {
@@ -46,8 +53,10 @@ namespace BusinessLayer.Implementations
                 IsActive = dto.IsActive,
                 CompanyId = dto.CompanyId,
                 RegionId = dto.RegionId,
+                UserId = userId,
                 CreatedDate = DateTime.UtcNow
             };
+
 
             _context.ExpenseCategories.Add(entity);
             await _context.SaveChangesAsync();
