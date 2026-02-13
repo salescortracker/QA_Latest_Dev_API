@@ -18,6 +18,9 @@ namespace BusinessLayer.DTOs
         public bool IsActive { get; set; } = true;
         public int modifiedBy { get; set; }
         public int createdBy { get; set; }
+        public int? UserId { get; set; }
+        public string companyName { get; set; }
+        public string regionName { get; set; }
     }
     public class CreateUpdateDesignationDto
     {
