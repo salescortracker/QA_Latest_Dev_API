@@ -23,12 +23,12 @@ namespace BusinessLayer.Implementations
         // -----------------------------
         // GET ALL
         // -----------------------------
-        public async Task<ApiResponse<IEnumerable<KpiCategoryDto>>> GetAll()
+        public async Task<ApiResponse<IEnumerable<KpiCategoryDto>>> GetAll(int userId)
         {
             try
             {
                 var list = (await _unitOfWork.Repository<KpiCategory>()
-                    .FindAsync(x => !x.IsDeleted))
+                    .FindAsync(x => !x.IsDeleted && x.UserId == userId))
                     .ToList();
 
                 var dto = list
@@ -39,7 +39,7 @@ namespace BusinessLayer.Implementations
                         CompanyID = x.CompanyId,
                         RegionID = x.RegionId,
                         KpiCategoryName = x.KpiCategoryName ?? string.Empty,
-                        Description = x.Description,
+                        
                         IsActive = x.IsActive
                     });
 
@@ -77,7 +77,7 @@ namespace BusinessLayer.Implementations
                     CompanyID = entity.CompanyId,
                     RegionID = entity.RegionId,
                     KpiCategoryName = entity.KpiCategoryName ?? string.Empty,
-                    Description = entity.Description,
+                   
                     IsActive = entity.IsActive
                 };
 
@@ -117,10 +117,12 @@ namespace BusinessLayer.Implementations
                     CompanyId = dto.CompanyID,
                     RegionId = dto.RegionID,
                     KpiCategoryName = dto.KpiCategoryName,
-                    Description = dto.Description,
+                    
                     IsActive = dto.IsActive,
                     IsDeleted = false,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    UserId = dto.UserId,     // ✅ IMPORTANT
+                    CreatedBy = dto.UserId   // ✅ Recommended
                 };
 
                 await _unitOfWork.Repository<KpiCategory>().AddAsync(entity);
@@ -161,9 +163,10 @@ namespace BusinessLayer.Implementations
                     return new ApiResponse<string>(null!, "Duplicate KPI Category exists.", false);
 
                 entity.KpiCategoryName = dto.KpiCategoryName;
-                entity.Description = dto.Description;
+                
                 entity.IsActive = dto.IsActive;
                 entity.ModifiedAt = DateTime.UtcNow;
+                entity.ModifiedBy = dto.UserId;
 
                 _unitOfWork.Repository<KpiCategory>().Update(entity);
                 await _unitOfWork.CompleteAsync();
@@ -184,10 +187,14 @@ namespace BusinessLayer.Implementations
         {
             var entity = await _unitOfWork.Repository<KpiCategory>().GetByIdAsync(id);
 
-            if (entity == null)
+            if (entity == null || entity.IsDeleted)
                 return new ApiResponse<string>(null!, "KPI Category not found.", false);
 
-            _unitOfWork.Repository<KpiCategory>().Remove(entity);
+            entity.IsDeleted = true;          // ✅ SOFT DELETE
+            entity.ModifiedAt = DateTime.UtcNow;
+            entity.ModifiedBy = entity.UserId;  // optional
+
+            _unitOfWork.Repository<KpiCategory>().Update(entity);
             await _unitOfWork.CompleteAsync();
 
             return new ApiResponse<string>("KPI Category deleted permanently.");
