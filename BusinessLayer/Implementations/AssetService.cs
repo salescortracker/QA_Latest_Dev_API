@@ -199,10 +199,12 @@ namespace BusinessLayer.Implementations
                 })
                 .ToListAsync();
         }
-        public async Task<List<EmployeeDto>> GetAllEmployeesAsync()
+        public async Task<List<EmployeeDto>> GetEmployeesByCompanyRegionAsync(int companyId, int regionId)
         {
             return await _context.Users
-                .Where(u => u.Status == "Active") // optional filter
+                .Where(u => u.Status == "Active"
+                            && u.CompanyId == companyId
+                            && u.RegionId == regionId)
                 .Select(u => new EmployeeDto
                 {
                     UserId = u.UserId,
@@ -211,6 +213,7 @@ namespace BusinessLayer.Implementations
                 .OrderBy(u => u.FullName)
                 .ToListAsync();
         }
+
 
     }
 }
