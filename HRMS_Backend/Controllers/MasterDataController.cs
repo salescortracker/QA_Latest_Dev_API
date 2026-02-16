@@ -8,6 +8,7 @@ namespace HRMS_Backend.Controllers
     [ApiController]
     public class MasterDataController : ControllerBase
     {
+        private readonly IBloodGroupService _bloodGroupService;
         private readonly IDepartmentService _service;
         private readonly IGenderService _genderService;
         private readonly IadminService _adminService;
@@ -18,7 +19,7 @@ namespace HRMS_Backend.Controllers
         private readonly ICertificationTypeService _certificationTypeService;
         private readonly ILeaveTypeService _leaveTypeService;
         private readonly IExpenseCategoryService _expensecategoryservice; private readonly IAssetStatusService _assetStatusService;
-        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService)
+        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService, IBloodGroupService bloodGroupService)
         {
             _service = service;
             _designationService = designationService;
@@ -31,7 +32,92 @@ namespace HRMS_Backend.Controllers
             _employeeService = employeeService;
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
+            _bloodGroupService = bloodGroupService;
         }
+
+        #region BloodGroup
+
+        #region Get All
+        [HttpGet("GetAllBloodGroups")]
+          public async Task<IActionResult> GetAllBloodGroups(int companyId)
+        {
+            var result = await _bloodGroupService.GetAllAsync(companyId);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+        #endregion
+
+
+        #region Get By Id
+        [HttpGet("GetBloodGroupsById/{id}")]
+        public async Task<IActionResult> GetBloodGroupsById(int id)
+        {
+            var result = await _bloodGroupService.GetByIdAsync(id);
+
+            if (!result.Success)
+                return NotFound(result);
+
+            return Ok(result);
+        }
+        #endregion
+
+
+        #region Search
+        [HttpPost("SearchBloodGroups")]
+        //public async Task<IActionResult> SearchBloodGroups([FromBody] BloodGroupDto filter)
+        //{
+        //    var result = await _bloodGroupService
+        //        .SearchbloodgroupAsync(filter);
+
+        //    return Ok(result);
+        //}
+        #endregion
+
+
+        #region Add
+        [HttpPost("AddBloodGroups")]
+        public async Task<IActionResult> AddBloodGroups([FromBody] BloodGroupDto dto)
+        {
+            var result = await _bloodGroupService.CreateAsync(dto);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+        #endregion
+
+
+        #region Update
+        [HttpPut("UpdateBloodGroups")]
+        public async Task<IActionResult> UpdateBloodGroups(int id,
+            [FromBody] BloodGroupDto dto)
+        {
+            if (id != dto.BloodGroupID)
+                return BadRequest("ID mismatch");
+
+            var result = await _bloodGroupService.UpdateAsync(dto);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+        #endregion
+
+
+        #region Delete
+        [HttpDelete("DeleteBloodGroups/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        => Ok(await _bloodGroupService.DeleteAsync(id));
+        #endregion
+
+
+        #endregion
+
         #region Departments
         // ✅ GET ALL (with optional filters later)
         [HttpGet("GetDepartments")]
