@@ -1,4 +1,4 @@
-﻿using BusinessLayer.DTOs;
+using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,8 +17,10 @@ namespace HRMS_Backend.Controllers
         private readonly IEmployeeMasterService _employeeService;
         private readonly ICertificationTypeService _certificationTypeService;
         private readonly ILeaveTypeService _leaveTypeService;
-        private readonly IExpenseCategoryService _expensecategoryservice; private readonly IAssetStatusService _assetStatusService;
-        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService)
+        private readonly IExpenseCategoryService _expensecategoryservice;
+        private readonly IAssetStatusService _assetStatusService;
+    private readonly IAccountTypeService _accountTypeService;
+        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService, IAccountTypeService accountTypeService)
         {
             _service = service;
             _designationService = designationService;
@@ -31,6 +33,7 @@ namespace HRMS_Backend.Controllers
             _employeeService = employeeService;
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
+            _accountTypeService = accountTypeService;
         }
         #region Departments
         // ✅ GET ALL (with optional filters later)
@@ -420,13 +423,51 @@ namespace HRMS_Backend.Controllers
             var result = await _kpiCategoryService.DeleteAsync(id);
             return result.Success ? Ok(result) : NotFound(result);
         }
+    #endregion
+
+
+
+        #region A/C Type
+        [HttpGet("GetAccountTypes")]
+        public async Task<IActionResult> GetAllAccountType(int userId)
+        {
+            var data = await _accountTypeService
+                   .GetAllAccounttypeAsync(userId);
+
+            return Ok(new { data });
+        }
+
+        [HttpPost("CreateAccountType")]
+        public async Task<IActionResult> CreateAccountType(AccountTypeDto dto)
+        {
+          var r = await _accountTypeService.AddAccounttypeAsync(dto);
+          if (r == null) return Ok(new { message = "Duplicate Record Found" });
+          return Ok(new { message = "Created Successfully", data = r });
+        }
+
+        [HttpPost("UpdateAccountType")]
+        public async Task<IActionResult> UpdateAccountType(AccountTypeDto dto)
+        {
+          var r = await _accountTypeService.UpdateAccounttypeAsync(dto);
+          if (r == null) return Ok(new { message = "Duplicate Record Found" });
+          return Ok(new { message = "Updated Successfully", data = r });
+        }
+
+        [HttpPost("DeleteAccountType")]
+        public async Task<IActionResult> DeleteAccountType(int id)
+        {
+          var ok = await _accountTypeService.DeleteAccounttypeAsync(id);
+          if (!ok) return NotFound();
+          return Ok(new { message = "Deleted Successfully" });
+        }
+
         #endregion
-        
-        //---------------------------------Employee Master Details---------------------------------//
-        #region Employee Master Details
+
+    //---------------------------------Employee Master Details---------------------------------//
+    #region Employee Master Details
 
 
-        [HttpGet("GetAllEmployees")]
+    [HttpGet("GetAllEmployees")]
         public async Task<IActionResult> GetAllEmployees()
         {
             var data = await _employeeService.GetAllEmployees();
