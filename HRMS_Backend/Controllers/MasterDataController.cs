@@ -19,8 +19,9 @@ namespace HRMS_Backend.Controllers
         private readonly ILeaveTypeService _leaveTypeService;
         private readonly IExpenseCategoryService _expensecategoryservice;
         private readonly IAssetStatusService _assetStatusService;
-    private readonly IAccountTypeService _accountTypeService;
-        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService, IAccountTypeService accountTypeService)
+        private readonly IAccountTypeService _accountTypeService;
+        private readonly ILeaveStatusService _leaveStatusService;
+        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService, IAccountTypeService accountTypeService, ILeaveStatusService leaveStatusService)
         {
             _service = service;
             _designationService = designationService;
@@ -34,6 +35,7 @@ namespace HRMS_Backend.Controllers
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
             _accountTypeService = accountTypeService;
+            _leaveStatusService = leaveStatusService;
         }
         #region Departments
         // ✅ GET ALL (with optional filters later)
@@ -445,6 +447,7 @@ namespace HRMS_Backend.Controllers
           return Ok(new { message = "Created Successfully", data = r });
         }
 
+
         [HttpGet("GetAccountTypesName")]
         public async Task<IActionResult> GetAllAccountTypeName(int companyId, int regionId)
         {
@@ -470,7 +473,61 @@ namespace HRMS_Backend.Controllers
           return Ok(new { message = "Deleted Successfully" });
         }
 
-        #endregion
+    #endregion
+
+         #region LeaveStatus
+
+        [HttpGet("GetLeaveStatus")]
+        public async Task<IActionResult> GetLeaveStatus( int UserID)
+        {
+          var result = await _leaveStatusService.GetLeaveStatusAsync(  UserID);
+          return Ok(new { data = result });
+        }
+
+      [HttpPost("CreateLeaveStatus")]
+      public async Task<IActionResult> CreateLeaveStatus([FromBody] LeaveStatusDto dto, [FromQuery] int userId)
+      {
+        try
+        {
+          var result = await _leaveStatusService.CreateLeaveStatusAsync(dto, userId);
+          return Ok("Leave Status created successfully");
+        }
+        catch (Exception ex)
+        {
+          return BadRequest(ex.Message);
+        }
+      }
+
+
+
+      [HttpPut("UpdateLeaveStatus")]
+      public async Task<IActionResult> UpdateLeaveStatus([FromBody] LeaveStatusDto dto)
+      {
+        try
+        {
+          var userId = Convert.ToInt32(Request.Headers["UserId"]);
+          var success = await _leaveStatusService.UpdateLeaveStatusAsync(dto, userId);
+
+          return success ? Ok() : NotFound();
+        }
+        catch (Exception ex)
+        {
+          return BadRequest(ex.Message);
+        }
+      }
+
+
+
+    [HttpDelete("DeleteLeaveStatus")]
+      public async Task<IActionResult> DeleteLeaveStatus(int LeaveStatusID)
+      {
+        var userId = Convert.ToInt32(Request.Headers["UserId"]);
+
+        var success = await _leaveStatusService.DeleteLeaveStatusAsync(LeaveStatusID, userId);
+        return success ? Ok() : NotFound();
+      }
+
+    #endregion
 
     //---------------------------------Employee Master Details---------------------------------//
     #region Employee Master Details
@@ -689,6 +746,9 @@ namespace HRMS_Backend.Controllers
 
 
         #endregion
+
+
+       
         #region expenseCategory
         [HttpGet("GetexpenseCategoryAll")]
         public async Task<IActionResult> GetexpenseCategoryAll(int companyId, int regionId)
