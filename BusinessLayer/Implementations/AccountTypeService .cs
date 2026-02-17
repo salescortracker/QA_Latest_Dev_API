@@ -22,8 +22,7 @@ namespace BusinessLayer.Implementations
       _context = context;
     }
 
-    public async Task<ApiResponse<IEnumerable<AccountTypeDto>>>
-GetAllAccounttypeAsync(int userId)
+    public async Task<ApiResponse<IEnumerable<AccountTypeDto>>>GetAllAccounttypeAsync(int userId)
     {
       var list = await _unit.Repository<AccountType>()
           .FindAsync(x => !x.IsDeleted
@@ -46,6 +45,31 @@ GetAllAccounttypeAsync(int userId)
       return new ApiResponse<IEnumerable<AccountTypeDto>>(dto, "Retrieved Successfully");
     }
 
+    public async Task<ApiResponse<IEnumerable<AccountTypeDto>>>GetAllAccounttypeNameAsync(int companyId, int regionId)
+    {
+      var list = await _unit.Repository<AccountType>()
+          .FindAsync(x => !x.IsDeleted
+
+                      && x.CompanyId == companyId &&
+            x.RegionId == regionId
+          );
+
+      var dto = list.Select(x => new AccountTypeDto
+      {
+        AccountTypeId = x.AccountTypeId,
+        AccountTypeName = x.AccountType1,
+        Description = x.Description,
+        IsActive = x.IsActive,
+        CompanyId = x.CompanyId,
+        RegionId = x.RegionId,
+        CompanyName = _context.Companies
+                .FirstOrDefault(c => c.CompanyId == x.CompanyId)?.CompanyName,
+        RegionName = _context.Regions
+                .FirstOrDefault(r => r.RegionId == x.RegionId)?.RegionName
+      });
+
+      return new ApiResponse<IEnumerable<AccountTypeDto>>(dto, "Retrieved Successfully");
+    }
 
     public async Task<AccountTypeDto?> GetByIdAccounttypeAsync(int id)
     {

@@ -41,7 +41,6 @@ builder.Services.AddScoped<IDesignationService, DesignationService>();
 builder.Services.AddScoped<ICaptchaService, CaptchaService>();
 builder.Services.AddScoped<IGenderService, GenderService>();
 builder.Services.AddScoped<IEmployeeResignationService, EmployeeResignationService>();
-
 builder.Services.AddScoped<IemployeeService, employeeService>();
 builder.Services.AddScoped<IadminService, adminService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
@@ -58,6 +57,8 @@ builder.Services.AddScoped<IShiftAllocationService, ShiftAllocationService>();
 builder.Services.AddScoped<ILeaveTypeService, LeaveTypeService>();
 builder.Services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
 builder.Services.AddScoped<IAccountTypeService, AccountTypeService>();
+builder.Services.AddScoped<ILeaveStatusService, LeaveStatusService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
