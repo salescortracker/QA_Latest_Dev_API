@@ -39,7 +39,7 @@ namespace BusinessLayer.Implementations
                         CompanyID = x.CompanyId,
                         RegionID = x.RegionId,
                         KpiCategoryName = x.KpiCategoryName ?? string.Empty,
-                        Description = x.Description,
+                        //Description = x.Description,
                         IsActive = x.IsActive
                     });
 
@@ -77,7 +77,7 @@ namespace BusinessLayer.Implementations
                     CompanyID = entity.CompanyId,
                     RegionID = entity.RegionId,
                     KpiCategoryName = entity.KpiCategoryName ?? string.Empty,
-                    Description = entity.Description,
+                    //Description = entity.Description,
                     IsActive = entity.IsActive
                 };
 
@@ -117,7 +117,7 @@ namespace BusinessLayer.Implementations
                     CompanyId = dto.CompanyID,
                     RegionId = dto.RegionID,
                     KpiCategoryName = dto.KpiCategoryName,
-                    Description = dto.Description,
+                    //Description = dto.Description,
                     IsActive = dto.IsActive,
                     IsDeleted = false,
                     CreatedAt = DateTime.UtcNow
@@ -161,7 +161,7 @@ namespace BusinessLayer.Implementations
                     return new ApiResponse<string>(null!, "Duplicate KPI Category exists.", false);
 
                 entity.KpiCategoryName = dto.KpiCategoryName;
-                entity.Description = dto.Description;
+                //entity.Description = dto.Description;
                 entity.IsActive = dto.IsActive;
                 entity.ModifiedAt = DateTime.UtcNow;
 

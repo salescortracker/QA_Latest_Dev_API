@@ -70,6 +70,8 @@ builder.Services.AddScoped<IMissedPunchService,MissedPunchService>();
 builder.Services.AddScoped<IWorkFromHomeRequestService, WorkFromHomeRequestService>();
 builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
 builder.Services.AddScoped<IRecruitmentService, RecruitmentService>();
+builder.Services.AddScoped<IPerformanceService, PerformanceService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
