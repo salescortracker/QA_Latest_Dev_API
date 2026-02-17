@@ -445,7 +445,16 @@ namespace HRMS_Backend.Controllers
           return Ok(new { message = "Created Successfully", data = r });
         }
 
-        [HttpPost("UpdateAccountType")]
+        [HttpGet("GetAccountTypesName")]
+        public async Task<IActionResult> GetAllAccountTypeName(int companyId, int regionId)
+        {
+          var data = await _accountTypeService
+                 .GetAllAccounttypeNameAsync(companyId, regionId);
+
+          return Ok(new { data });
+        }
+
+    [HttpPost("UpdateAccountType")]
         public async Task<IActionResult> UpdateAccountType(AccountTypeDto dto)
         {
           var r = await _accountTypeService.UpdateAccounttypeAsync(dto);
