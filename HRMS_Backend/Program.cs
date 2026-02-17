@@ -1,4 +1,4 @@
-﻿
+
 using BusinessLayer.Implementations;
 using BusinessLayer.Interfaces;
 using DataAccessLayer.DBContext;
@@ -57,6 +57,7 @@ builder.Services.AddScoped<IClockInOutService, ClockInOutService>();
 builder.Services.AddScoped<IShiftAllocationService, ShiftAllocationService>();
 builder.Services.AddScoped<ILeaveTypeService, LeaveTypeService>();
 builder.Services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
+builder.Services.AddScoped<IAccountTypeService, AccountTypeService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -72,6 +73,7 @@ builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
 builder.Services.AddScoped<IRecruitmentService, RecruitmentService>();
 builder.Services.AddScoped<IPerformanceService, PerformanceService>();
 
+builder.Services.AddScoped<IHelpdeskService, HelpdeskService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
