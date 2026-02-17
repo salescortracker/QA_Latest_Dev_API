@@ -86,7 +86,7 @@ namespace BusinessLayer.Implementations
                     RegionId = dto.regionId,
                     Description = dto.description,
                     IsActive = dto.isActive,
-                    CreatedBy = createdBy,
+                    //CreatedBy = createdBy,
                     CreatedAt = DateTime.UtcNow
                 };
 
@@ -132,7 +132,7 @@ namespace BusinessLayer.Implementations
                 entity.RegionId = dto.regionId;
                 entity.Description = dto.description;
                 entity.IsActive = dto.isActive;
-                entity.ModifiedBy = modifiedBy;
+                //entity.ModifiedBy = modifiedBy;
                 entity.ModifiedAt = DateTime.UtcNow;
 
                 _unitOfWork.Repository<Department>().Update(entity);
@@ -164,7 +164,7 @@ namespace BusinessLayer.Implementations
                     return new ApiResponse<object>(null!, "Department not found.", false);
 
                 entity.IsDeleted = true;
-                entity.ModifiedBy = modifiedBy;
+                //entity.ModifiedBy = modifiedBy;
                 entity.ModifiedAt = DateTime.UtcNow;
 
                 _unitOfWork.Repository<Department>().Update(entity);
@@ -206,7 +206,7 @@ namespace BusinessLayer.Implementations
                             RegionId = dto.regionId,
                             Description = dto.description,
                             IsActive = dto.isActive,
-                            CreatedBy = createdBy,
+                            //CreatedBy = createdBy,
                             CreatedAt = DateTime.UtcNow
                         };
 

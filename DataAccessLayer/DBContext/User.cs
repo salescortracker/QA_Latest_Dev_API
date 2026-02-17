@@ -55,6 +55,8 @@ public partial class User
 
     public int? UserCompanyId { get; set; }
 
+    public string? Designation { get; set; }
+
     public virtual Company Company { get; set; } = null!;
 
     public virtual ICollection<EmployeeMaster> EmployeeMasterCreatedByNavigations { get; set; } = new List<EmployeeMaster>();
