@@ -82,11 +82,16 @@ namespace HRMS_Backend.Controllers
         /// Get all active employees (for Asset dropdown)
         /// </summary>
         [HttpGet("employees")]
-        public async Task<ActionResult<List<EmployeeDto>>> GetAllEmployees()
+        public async Task<ActionResult<List<EmployeeDto>>> GetEmployeesByCompanyRegion(
+     [FromQuery] int companyId,
+     [FromQuery] int regionId)
         {
-            var employees = await _assetService.GetAllEmployeesAsync();
+            var employees = await _assetService
+                .GetEmployeesByCompanyRegionAsync(companyId, regionId);
+
             return Ok(employees);
         }
+
         #region for approval assest
         /// <summary>
         /// Get pending asset approvals for reporting manager

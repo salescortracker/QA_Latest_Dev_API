@@ -16,7 +16,8 @@ namespace BusinessLayer.Interfaces
         Task<bool> DeleteAssetAsync(int assetId);
         Task<List<AssetStatusDto>> GetAllAssetStatusesAsync();
 
-        Task<List<EmployeeDto>> GetAllEmployeesAsync();
+        Task<List<EmployeeDto>> GetEmployeesByCompanyRegionAsync(int companyId, int regionId);
+
 
     }
 }

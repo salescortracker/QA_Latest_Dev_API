@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BusinessLayer.DTOs
+﻿namespace BusinessLayer.DTOs
 {
     public class CreateUpdateKpiCategoryDto
     {
@@ -14,5 +8,6 @@ namespace BusinessLayer.DTOs
         public bool IsActive { get; set; } = true;
         public int CompanyID { get; set; }
         public int RegionID { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -385,9 +385,9 @@ namespace HRMS_Backend.Controllers
 
         // GET ALL KPI CATEGORIES
         [HttpGet("kpi-categories")]
-        public async Task<IActionResult> GetKpiCategories()
+        public async Task<IActionResult> GetKpiCategories([FromQuery] int userId)
         {
-            var result = await _kpiCategoryService.GetAll();
+            var result = await _kpiCategoryService.GetAll(userId);
             return Ok(result);
         }
 
