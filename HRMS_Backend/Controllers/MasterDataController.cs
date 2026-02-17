@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
+using DataAccessLayer.DBContext;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRMS_Backend.Controllers
@@ -17,8 +18,13 @@ namespace HRMS_Backend.Controllers
         private readonly IEmployeeMasterService _employeeService;
         private readonly ICertificationTypeService _certificationTypeService;
         private readonly ILeaveTypeService _leaveTypeService;
-        private readonly IExpenseCategoryService _expensecategoryservice; private readonly IAssetStatusService _assetStatusService;
-        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService)
+        private readonly IExpenseCategoryService _expensecategoryservice; 
+        private readonly IAssetStatusService _assetStatusService;
+        private readonly IHelpdeskCategoryAdminService _helpdeskCategoryAdminService;
+        private readonly IProjectStatusAdminService _projectStatusAdminService;
+
+        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService,
+            IAssetStatusService assetStatusService, IHelpdeskCategoryAdminService helpdeskCategoryAdminService, IProjectStatusAdminService projectStatusAdminService)
         {
             _service = service;
             _designationService = designationService;
@@ -31,7 +37,116 @@ namespace HRMS_Backend.Controllers
             _employeeService = employeeService;
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
+            _helpdeskCategoryAdminService = helpdeskCategoryAdminService;
+            _projectStatusAdminService = projectStatusAdminService;
         }
+
+        // ===============================
+        // GET ALL
+        // ===============================
+        [HttpGet("project-status")]
+        public async Task<IActionResult> GetAllProjects([FromQuery] int userId)
+        {
+            var result = await _projectStatusAdminService.GetAllProject(userId);
+            return Ok(result);
+        }
+
+        // ===============================
+        // GET BY ID
+        // ===============================
+        [HttpGet("project-status/{id}")]
+        public async Task<IActionResult> GetByIdProject(int id)
+        {
+            var result = await _projectStatusAdminService.GetByIdProjectAsync(id);
+            return Ok(result);
+        }
+
+        // ===============================
+        // CREATE
+        // ===============================
+        [HttpPost("project-status")]
+        public async Task<IActionResult> CreateProject([FromBody] ProjectStatusDto dto)
+        {
+            var result = await _projectStatusAdminService.CreateProjectAsync(dto);
+            return Ok(result);
+        }
+
+        // ===============================
+        // UPDATE
+        // ===============================
+        [HttpPut("project-status/{id}")]
+        public async Task<IActionResult> UpdateProject(int id, [FromBody] ProjectStatusDto dto)
+        {
+            dto.ProjectStatusId = id;
+            var result = await _projectStatusAdminService.UpdateProjectAsync(dto);
+            return Ok(result);
+        }
+
+        // ===============================
+        // DELETE
+        // ===============================
+        [HttpDelete("project-status/{id}")]
+        public async Task<IActionResult> DeleteProject(int id)
+        {
+            var result = await _projectStatusAdminService.DeleteProjectAsync(id);
+            return result.Success ? Ok(result) : NotFound(result);
+        }
+
+        #region Helpdesk
+        // ===============================
+        // GET ALL
+        // ===============================
+        [HttpGet("helpdesk-category")]
+        public async Task<IActionResult> GetAll([FromQuery] int userId)
+        {
+            var result = await _helpdeskCategoryAdminService.GetAll(userId);
+            return Ok(result);
+        }
+
+        // ===============================
+        // GET BY ID
+        // ===============================
+        [HttpGet("helpdesk-category/{id}")]
+        public async Task<IActionResult> GetByIds(int id)
+        {
+            var result = await _helpdeskCategoryAdminService.GetByIdAsync(id);
+            return Ok(result);
+        }
+
+        // ===============================
+        // CREATE
+        // ===============================
+        [HttpPost("helpdesk-category")]
+        public async Task<IActionResult> Create([FromBody] CreateUpdateHelpdeskCategoryDto dto)
+        {
+            var result = await _helpdeskCategoryAdminService.CreateAsync(dto);
+            return Ok(result);
+        }
+
+        // ===============================
+        // UPDATE
+        // ===============================
+        [HttpPut("helpdesk-category/{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] CreateUpdateHelpdeskCategoryDto dto)
+        {
+            dto.HelpdeskCategoryID = id;
+            var result = await _helpdeskCategoryAdminService.UpdateAsync(dto);
+            return Ok(result);
+        }
+
+        // ===============================
+        // DELETE
+        // ===============================
+        [HttpDelete("helpdesk-category/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _helpdeskCategoryAdminService.DeleteAsync(id);
+            return result.Success ? Ok(result) : NotFound(result);
+        }
+        #endregion
+
+
+
         #region Departments
         // ✅ GET ALL (with optional filters later)
         [HttpGet("GetDepartments")]
