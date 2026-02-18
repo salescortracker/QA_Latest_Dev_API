@@ -13,15 +13,16 @@ namespace HRMS_Backend.Controllers
         private readonly ITimesheetService _timesheetService;
         private readonly IMissedPunchService _service;
         private readonly IWorkFromHomeRequestService _workfromhomeservice;
-        public AttendanceController(IShiftAllocationService shiftAllocationService, IClockInOutService clockInOutService, ITimesheetService timesheetService, IMissedPunchService service,IWorkFromHomeRequestService workfromhomeservice)
+        private readonly ICompanyNewsService _companyNewsService;
+        public AttendanceController(IShiftAllocationService shiftAllocationService, IClockInOutService clockInOutService, ITimesheetService timesheetService, IMissedPunchService service, IWorkFromHomeRequestService workfromhomeservice, ICompanyNewsService companyNewsService)
         {
-            
+
             _shiftAllocationService = shiftAllocationService;
             _clockInOutService = clockInOutService;
             _timesheetService = timesheetService;
             _service = service;
             _workfromhomeservice = workfromhomeservice;
-
+            _companyNewsService = companyNewsService;
         }
         #region ShiftAllocation
 
@@ -99,7 +100,7 @@ namespace HRMS_Backend.Controllers
         public async Task<IActionResult> AllocateShift([FromBody] ShiftAllocationDto dto)
         {
             var status = await _shiftAllocationService.AllocateShiftAsync(dto);
-            return   Ok(status) ;
+            return Ok(status);
         }
 
         [HttpPost("UpdateAllocation")]
@@ -172,7 +173,7 @@ namespace HRMS_Backend.Controllers
 
         // 🔹 DELETE: api/ClockInOut/5
         [HttpPost("DeleteClockinOut")]
-        public async Task<IActionResult> DeleteClockinOut([FromQuery]int id)
+        public async Task<IActionResult> DeleteClockinOut([FromQuery] int id)
         {
             var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
 
@@ -288,7 +289,7 @@ namespace HRMS_Backend.Controllers
         public async Task<IActionResult> GetApprovalMissedPunchRequest(
             int companyId, int? regionId, int managerId)
         {
-            var result=await _service.GetApprovalMissedPunchRequest(
+            var result = await _service.GetApprovalMissedPunchRequest(
                 companyId, regionId, managerId);
             return Ok(result);
         }
@@ -394,5 +395,94 @@ namespace HRMS_Backend.Controllers
 
         #endregion
 
+        //----------------------------------------COMPANY NEWS---------------------------------------------//
+        // ------------------------------------------------------
+        // REGION: Add Company News (ADMIN ONLY)
+        // ------------------------------------------------------
+        #region Add Company News
+
+        [HttpPost("add-news")]
+        public async Task<IActionResult> AddCompanyNews([FromForm] CompanyNewsDto request)
+        {
+            if (request.CreatedBy <= 0)
+                return BadRequest("CreatedBy (User ID) is required.");
+
+            var success = await _companyNewsService.AddCompanyNewsAsync(request, request.CreatedBy);
+
+            if (!success)
+                return Forbid("Only admins can add company news.");
+
+            return Ok("News Created Successfully");
+        }
+
+
+
+
+        // ------------------------------------------------------
+        // REGION: Get All News (ANY EMPLOYEE)
+        // ------------------------------------------------------
+        // Filtered news endpoint
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll([FromQuery] string? category, [FromQuery] DateTime? date)
+        {
+            var result = await _companyNewsService.GetFilteredCompanyNewsAsync(category, date);
+            return Ok(result);
+        }
+
+
+
+        // ------------------------------------------------------
+        // REGION: Department Dropdown
+        // ------------------------------------------------------
+        // Department Dropdown
+        [HttpGet("departments")]
+        public async Task<IActionResult> GetDepartments()
+        {
+            var result = await _companyNewsService.GetDepartmentsAsync();
+            return Ok(result);
+        }
+
+        // ------------------------------------------------------
+        // Update Company News (ADMIN ONLY)
+        // ------------------------------------------------------
+        [HttpPut("update-news")]
+        public async Task<IActionResult> UpdateCompanyNews([FromForm] CompanyNewsDto request)
+        {
+            if (request.NewsId <= 0)
+                return BadRequest("NewsId is required for update.");
+
+            if (request.CreatedBy <= 0)
+                return BadRequest("CreatedBy (User ID) is required.");
+
+            var success = await _companyNewsService.UpdateCompanyNewsAsync(request, request.CreatedBy);
+
+            if (!success)
+                return Forbid("Only admins can update company news.");
+
+            return Ok("News Updated Successfully");
+        }
+
+        // ------------------------------------------------------
+        // Delete Company News (ADMIN ONLY)
+        // ------------------------------------------------------
+        [HttpDelete("delete-news/{id:int}")]
+        public async Task<IActionResult> DeleteCompanyNews(int id, [FromQuery] int userId)
+        {
+            if (userId <= 0)
+                return BadRequest("UserId is required.");
+
+            var success = await _companyNewsService.DeleteCompanyNewsAsync(id, userId);
+
+            if (!success)
+                return Forbid("Only admins can delete company news.");
+
+            return Ok("News Deleted Successfully");
+        }
+
+
+        #endregion
     }
 }
+
+
+
