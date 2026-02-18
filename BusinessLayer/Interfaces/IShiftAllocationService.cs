@@ -12,13 +12,14 @@ namespace BusinessLayer.Interfaces
         // -------------------------------
         // SHIFT MASTER  (Shift Setup)
         // -------------------------------
-        Task<IEnumerable<ShiftMasterDto>> GetAllShiftsAsync();
+        Task<IEnumerable<ShiftMasterDto>> GetAllShiftsAsync(int userId);
         Task<ShiftMasterDto?> GetShiftByIdAsync(int shiftId);
         Task<bool> AddShiftAsync(ShiftMasterDto dto);
         Task<bool> UpdateShiftAsync(ShiftMasterDto dto);
         Task<bool> DeleteShiftAsync(int shiftId);
         Task<bool> ActivateShiftAsync(int shiftId);
         Task<bool> DeactivateShiftAsync(int shiftId);
+        Task<IEnumerable<ShiftMasterDto>> GetShiftsForDropdownAsync(int companyId, int regionId);
 
         // -------------------------------
         // SHIFT ALLOCATION (Main Table)
