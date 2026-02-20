@@ -28,6 +28,7 @@ public partial class ShiftMaster
     public DateTime? ModifiedAt { get; set; }
 
     public int? ModifiedBy { get; set; }
+    public int? UserId { get; set; }
 
     public virtual ICollection<EmployeeDailyWorkingHourHeader> EmployeeDailyWorkingHourHeaders { get; set; } = new List<EmployeeDailyWorkingHourHeader>();
 
