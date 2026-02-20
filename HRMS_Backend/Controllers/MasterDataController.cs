@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.DTOs;
+using BusinessLayer.Implementations;
 using BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,8 @@ namespace HRMS_Backend.Controllers
         private readonly ICertificationTypeService _certificationTypeService;
         private readonly ILeaveTypeService _leaveTypeService;
         private readonly IExpenseCategoryService _expensecategoryservice; private readonly IAssetStatusService _assetStatusService;
-        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService)
+        private readonly IAttendanceStatusService _attendanceStatusService;
+        public MasterDataController(IAttendanceStatusService attendanceStatusService, IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService)
         {
             _service = service;
             _designationService = designationService;
@@ -31,7 +33,68 @@ namespace HRMS_Backend.Controllers
             _employeeService = employeeService;
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
+            _attendanceStatusService = attendanceStatusService;
         }
+
+        #region AttendanceStatus
+
+        [HttpGet("GetAllAttendanceStatus")]
+        public async Task<IActionResult> GetAll(int companyId, int regionId)
+        {
+            var result = await _attendanceStatusService.GetAllAsync(companyId, regionId);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetAttendanceStatusById/{id}")]
+        public async Task<IActionResult> GetAttendanceStatusById(int id)
+        {
+            var result = await _attendanceStatusService.GetByIdAsync(id);
+
+            if (!result.Success)
+                return NotFound(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("AddAttendanceStatus")]
+        public async Task<IActionResult> AddAttendanceStatus(
+      [FromBody] AttendanceStatusDto dto)
+        {
+            var result = await _attendanceStatusService.CreateAsync(dto);
+
+            if (!result.Success)
+                return Conflict(result);   // 409 for duplicate
+
+            return CreatedAtAction(
+                nameof(GetAttendanceStatusById),
+                new { id = result.Data.AttendanceStatusId },
+                result);
+        }
+
+        [HttpPut("UpdateAttendanceStatus")]
+        public async Task<IActionResult> UpdateAttendanceStatus(int id, [FromBody] AttendanceStatusDto dto)
+        {
+            
+            var result = await _attendanceStatusService.UpdateAsync(dto);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("DeleteAttendanceStatus/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return Ok(await _attendanceStatusService.DeleteAsync(id));
+        }
+
+        #endregion
+
         #region Departments
         // ✅ GET ALL (with optional filters later)
         [HttpGet("GetDepartments")]
