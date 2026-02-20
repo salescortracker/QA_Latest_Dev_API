@@ -1,118 +1,272 @@
 ﻿using BusinessLayer.Common;
 using BusinessLayer.DTOs;
+using BusinessLayer.Interfaces;
 using DataAccessLayer.DBContext;
 using DataAccessLayer.Repositories.GeneralRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLayer.Implementations
 {
-    public class BloodGroupService
+    public class BloodGroupService : IBloodGroupService
     {
+        private readonly HRMSContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
-        public BloodGroupService(IUnitOfWork unitOfWork)
+        public BloodGroupService(IUnitOfWork unitOfWork, HRMSContext context)
         {
             _unitOfWork = unitOfWork;
+            _context = context;
+            _context = context;
         }
 
-        //public async Task<IEnumerable<BloodGroupDto>> GetAllAsync()
-        //{
-        //    var data = await _unitOfWork.Repository<BloodGroup>().GetAllAsync();
-        //    return data.Select(MapToDto).ToList();
-        //}
+        #region Get All By Company
+        public async Task<ApiResponse<IEnumerable<BloodGroupDto>>>
+            GetAllAsync(int companyId)
+        {
+            try
+            {
+                if (companyId <= 0)
+                    return new ApiResponse<IEnumerable<BloodGroupDto>>(
+                        null,
+                        "Invalid company id",
+                        false
+                    );
 
-        //public async Task<BloodGroupDto?> GetByIdAsync(int id)
-        //{
-        //    var entity = await _unitOfWork.Repository<BloodGroup>().GetByIdAsync(id);
-        //    return entity == null ? null : MapToDto(entity);
-        //}
+                var data = await _unitOfWork
+                    .Repository<BloodGroup>()
+                    .GetAllAsync();
 
-        //public async Task<IEnumerable<BloodGroupDto>> SearchAsync(object filter)
-        //{
-        //    var props = filter.GetType().GetProperties();
-        //    var all = (await _unitOfWork.Repository<BloodGroup>().GetAllAsync()).AsQueryable();
+                var result = data
+                    .Where(x => x.CompanyId == companyId && !x.IsDeleted)
+                    .Select(MapToDto)
+                    .ToList();
 
-        //    foreach (var prop in props)
-        //    {
-        //        var name = prop.Name;
-        //        var value = prop.GetValue(filter);
+                return new ApiResponse<IEnumerable<BloodGroupDto>>(
+                    result,
+                    "Blood groups fetched successfully",
+                    true
+                );
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<IEnumerable<BloodGroupDto>>(
+                    null,
+                    ex.Message,
+                    false
+                );
+            }
+        }
+        #endregion
 
-        //        if (value != null)
-        //        {
-        //            switch (name)
-        //            {
-        //                case nameof(BloodGroup.BloodGroupName):
-        //                    all = all.Where(x => x.BloodGroupName.Contains(value.ToString()!));
-        //                    break;
-        //                case nameof(BloodGroup.CompanyId):
-        //                    all = all.Where(x => x.CompanyId == (int)value);
-        //                    break;
-        //                case nameof(BloodGroup.RegionId):
-        //                    all = all.Where(x => x.RegionId == (int)value);
-        //                    break;
-        //                case nameof(BloodGroup.IsActive):
-        //                    all = all.Where(x => x.IsActive == (bool)value);
-        //                    break;
-        //            }
-        //        }
-        //    }
 
-        //    return all.Select(MapToDto).ToList();
-        //}
+        #region Get By Id
+        public async Task<ApiResponse<BloodGroupDto?>>
+            GetByIdAsync(int id)
+        {
+            try
+            {
+                var entity = await _context.BloodGroups
+                    .FirstOrDefaultAsync(x => x.UserID == id && !x.IsDeleted);
 
-        //public async Task<BloodGroupDto> AddAsync(BloodGroupDto dto)
-        //{
-        //    var entity = new BloodGroup
-        //    {
-        //        BloodGroupName = dto.BloodGroupName,
-        //        CompanyId = dto.CompanyId,
-        //        RegionId = dto.RegionId,
-        //        IsActive = dto.IsActive,
+                if (entity == null)
+                    return new ApiResponse<BloodGroupDto?>(
+                        null,
+                        "Blood group not found",
+                        true
+                    );
 
-        //    };
+                var dto = MapToDto(entity);
 
-        //    await _unitOfWork.Repository<BloodGroup>().AddAsync(entity);
-        //    await _unitOfWork.CompleteAsync();
-        //    return MapToDto(entity);
-        //}
+                return new ApiResponse<BloodGroupDto?>(
+                    dto,
+                    "Blood group fetched successfully",
+                    true
+                );
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<BloodGroupDto?>(
+                    null,
+                    ex.Message,
+                    false
+                );
+            }
+        }
+        #endregion
 
-        //public async Task<BloodGroupDto> UpdateAsync(BloodGroupDto dto)
-        //{
-        //    var entity = await _unitOfWork.Repository<BloodGroup>().GetByIdAsync(dto.BloodGroupId);
-        //    if (entity == null) throw new Exception("Blood group not found");
 
-        //    entity.BloodGroupName = dto.BloodGroupName;
-        //    entity.CompanyId = dto.CompanyId;
-        //    entity.RegionId = dto.RegionId;
-        //    entity.IsActive = dto.IsActive;
 
-        //    _unitOfWork.Repository<BloodGroup>().Update(entity);
-        //    await _unitOfWork.CompleteAsync();
+        #region Create
+        public async Task<ApiResponse<BloodGroupDto>>
+            CreateAsync(BloodGroupDto dto)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(dto.BloodGroupName))
+                    return new ApiResponse<BloodGroupDto>(
+                        null,
+                        "Blood group name is required",
+                        false
+                    );
 
-        //    return MapToDto(entity);
-        //}
+                // 🔥 Duplicate Check
+                var existing = (await _unitOfWork
+                    .Repository<BloodGroup>()
+                    .GetAllAsync())
+                    .FirstOrDefault(x =>
+                        x.BloodGroupName.ToLower() ==
+                        dto.BloodGroupName.ToLower() &&
+                        x.CompanyId == dto.CompanyID && !x.IsDeleted && x.UserID == dto.UserID
+                       );
 
-        //public async Task<bool> DeleteAsync(int id)
-        //{
-        //    var entity = await _unitOfWork.Repository<BloodGroup>().GetByIdAsync(id);
-        //    if (entity == null) return false;
+                if (existing != null)
+                    return new ApiResponse<BloodGroupDto>(
+                        null,
+                        "Blood group already exists",
+                        false
+                    );
 
-        //    _unitOfWork.Repository<BloodGroup>().Remove(entity);
-        //    await _unitOfWork.CompleteAsync();
-        //    return true;
-        //}
+                var entity = new BloodGroup
+                {
+                    BloodGroupName = dto.BloodGroupName.Trim(),
+                    CompanyId = dto.CompanyID,
+                    RegionId = dto.RegionID,
+                    IsActive = dto.IsActive ?? true,
+                    IsDeleted = false,
+                    CreatedBy = dto.UserID,
+                    CreatedAt = DateTime.Now,
+                    UserID = dto.UserID,
+                    
+                };
 
-        //private BloodGroupDto MapToDto(BloodGroup bg)
-        //{
-        //    return new BloodGroupDto
-        //    {
-        //        BloodGroupId = bg.BloodGroupId,
-        //        BloodGroupName = bg.BloodGroupName,
-        //        CompanyId = bg.CompanyId,
-        //        RegionId = bg.RegionId,
-        //        IsActive = bg.IsActive
-        //    };
-        //}
+                await _unitOfWork.Repository<BloodGroup>().AddAsync(entity);
+                await _unitOfWork.CompleteAsync();
 
-      
+                return new ApiResponse<BloodGroupDto>(
+                    MapToDto(entity),
+                    "Blood group created successfully",
+                    true
+                );
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<BloodGroupDto>(
+                    null,
+                    ex.Message,
+                    false
+                );
+            }
+        }
+        #endregion
+
+
+        #region Update
+        public async Task<ApiResponse<BloodGroupDto>>
+            UpdateAsync(BloodGroupDto dto)
+        {
+            try
+            {
+                var entity = await _unitOfWork
+                    .Repository<BloodGroup>()
+                    .GetByIdAsync(dto.BloodGroupID);
+
+                if (entity == null)
+                    return new ApiResponse<BloodGroupDto>(
+                        null,
+                        "Blood group not found",
+                        false
+                    );
+
+                // 🔥 Duplicate Check (excluding current record)
+                var duplicate = (await _unitOfWork
+                    .Repository<BloodGroup>()
+                    .GetAllAsync())
+                    .FirstOrDefault(x =>
+                        x.BloodGroupId != dto.BloodGroupID &&
+                        x.BloodGroupName.ToLower() ==
+                        dto.BloodGroupName.ToLower() &&
+                        x.CompanyId == dto.CompanyID && !x.IsDeleted);
+
+                if (duplicate != null)
+                    return new ApiResponse<BloodGroupDto>(
+                        null,
+                        "Blood group already exists",
+                        false
+                    );
+
+                entity.BloodGroupName = dto.BloodGroupName.Trim();
+                entity.CompanyId = dto.CompanyID;
+                entity.RegionId = dto.RegionID;
+                entity.IsActive = dto.IsActive ?? entity.IsActive;
+                entity.IsDeleted = false;
+                entity.ModifiedBy = dto.UserID;
+                entity.ModifiedAt = DateTime.Now;
+
+                _unitOfWork.Repository<BloodGroup>().Update(entity);
+                await _unitOfWork.CompleteAsync();
+
+                return new ApiResponse<BloodGroupDto>(
+                    MapToDto(entity),
+                    "Blood group updated successfully",
+                    true
+                );
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<BloodGroupDto>(
+                    null,
+                    ex.Message,
+                    false
+                );
+            }
+        }
+        #endregion
+
+
+        #region Delete
+        public async Task<ApiResponse<bool>>
+            DeleteAsync(int id)
+        {
+            try
+            {
+                var entity = await _unitOfWork
+                .Repository<BloodGroup>()
+                .GetByIdAsync(id);
+
+                if (entity == null || entity.IsDeleted)
+                    return new ApiResponse<bool>(
+                        false, "Record not found", false);
+
+                entity.IsDeleted = true;
+                //entity.CreatedBy = 
+                _unitOfWork.Repository<BloodGroup>().Update(entity);
+                await _unitOfWork.CompleteAsync();
+
+                return new ApiResponse<bool>(
+                    true, "Deleted successfully", true);
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<bool>(
+                    false,
+                    ex.Message,
+                    false
+                );
+            }
+        }
+        #endregion
+
+
+        private BloodGroupDto MapToDto(BloodGroup bg)
+        {
+            return new BloodGroupDto
+            {
+                BloodGroupID = bg.BloodGroupId,
+                BloodGroupName = bg.BloodGroupName,
+                CompanyID = bg.CompanyId,
+                RegionID = bg.RegionId,
+                IsActive = bg.IsActive
+            };
+        }
     }
 }

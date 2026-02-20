@@ -41,6 +41,7 @@ builder.Services.AddScoped<IDesignationService, DesignationService>();
 builder.Services.AddScoped<ICaptchaService, CaptchaService>();
 builder.Services.AddScoped<IGenderService, GenderService>();
 builder.Services.AddScoped<IEmployeeResignationService, EmployeeResignationService>();
+builder.Services.AddScoped<ILeaveStatusService, LeaveStatusService>();
 
 builder.Services.AddScoped<IemployeeService, employeeService>();
 builder.Services.AddScoped<IadminService, adminService>();
@@ -70,6 +71,8 @@ builder.Services.AddScoped<IMissedPunchService,MissedPunchService>();
 builder.Services.AddScoped<IWorkFromHomeRequestService, WorkFromHomeRequestService>();
 builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
 builder.Services.AddScoped<IRecruitmentService, RecruitmentService>();
+builder.Services.AddScoped<IBloodGroupService, BloodGroupService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
