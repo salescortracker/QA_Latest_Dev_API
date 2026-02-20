@@ -468,10 +468,17 @@ namespace HRMS_Backend.Controllers
         #region Role Details
         // ✅ GET: api/RoleMaster
         [HttpGet("GetAllRoles")]
-        public async Task<IActionResult> GetAllRoles()
+        public async Task<IActionResult> GetAllRoles([FromQuery] int userId)
         {
-            var roles = await _roleService.GetAllRolesAsync();
-            return Ok(roles);
+            try
+            {
+                var roles = await _roleService.GetAllRolesAsync(userId);
+                return Ok(roles);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         // ✅ GET: api/RoleMaster/{id}
