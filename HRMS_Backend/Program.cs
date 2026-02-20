@@ -41,6 +41,7 @@ builder.Services.AddScoped<IDesignationService, DesignationService>();
 builder.Services.AddScoped<ICaptchaService, CaptchaService>();
 builder.Services.AddScoped<IGenderService, GenderService>();
 builder.Services.AddScoped<IEmployeeResignationService, EmployeeResignationService>();
+builder.Services.AddScoped<IAttendanceStatusService, AttendanceStatusService>();
 
 builder.Services.AddScoped<IemployeeService, employeeService>();
 builder.Services.AddScoped<IadminService, adminService>();
