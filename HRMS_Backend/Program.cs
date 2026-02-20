@@ -72,6 +72,8 @@ builder.Services.AddScoped<IWorkFromHomeRequestService, WorkFromHomeRequestServi
 builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
 builder.Services.AddScoped<IRecruitmentService, RecruitmentService>();
 builder.Services.AddScoped<IHelpdeskService, HelpdeskService>();
+builder.Services.AddScoped<IHolidayListService, HolidayListService>();
+builder.Services.AddScoped<IWeekoffService, WeekoffService>();  
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
