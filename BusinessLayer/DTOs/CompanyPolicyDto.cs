@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BusinessLayer.DTOs
 {
@@ -18,10 +14,10 @@ namespace BusinessLayer.DTOs
         public int CategoryId { get; set; }
         public string? CategoryName { get; set; }
 
+
         public DateTime EffectiveDate { get; set; }
 
         public string? Description { get; set; }
-
         // File
         public IFormFile? File { get; set; }
         public string? FileName { get; set; }

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
+using DataAccessLayer.DBContext;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRMS_Backend.Controllers
@@ -13,15 +14,16 @@ namespace HRMS_Backend.Controllers
         private readonly ITimesheetService _timesheetService;
         private readonly IMissedPunchService _service;
         private readonly IWorkFromHomeRequestService _workfromhomeservice;
-        public AttendanceController(IShiftAllocationService shiftAllocationService, IClockInOutService clockInOutService, ITimesheetService timesheetService, IMissedPunchService service,IWorkFromHomeRequestService workfromhomeservice)
+        private readonly ICompanyPolicyService _policyService;
+        public AttendanceController(IShiftAllocationService shiftAllocationService, IClockInOutService clockInOutService, ITimesheetService timesheetService, IMissedPunchService service, IWorkFromHomeRequestService workfromhomeservice, ICompanyPolicyService policyService)
         {
-            
+
             _shiftAllocationService = shiftAllocationService;
             _clockInOutService = clockInOutService;
             _timesheetService = timesheetService;
             _service = service;
             _workfromhomeservice = workfromhomeservice;
-
+            _policyService = policyService;
         }
         #region ShiftAllocation
 
@@ -99,7 +101,7 @@ namespace HRMS_Backend.Controllers
         public async Task<IActionResult> AllocateShift([FromBody] ShiftAllocationDto dto)
         {
             var status = await _shiftAllocationService.AllocateShiftAsync(dto);
-            return   Ok(status) ;
+            return Ok(status);
         }
 
         [HttpPost("UpdateAllocation")]
@@ -172,7 +174,7 @@ namespace HRMS_Backend.Controllers
 
         // 🔹 DELETE: api/ClockInOut/5
         [HttpPost("DeleteClockinOut")]
-        public async Task<IActionResult> DeleteClockinOut([FromQuery]int id)
+        public async Task<IActionResult> DeleteClockinOut([FromQuery] int id)
         {
             var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
 
@@ -288,7 +290,7 @@ namespace HRMS_Backend.Controllers
         public async Task<IActionResult> GetApprovalMissedPunchRequest(
             int companyId, int? regionId, int managerId)
         {
-            var result=await _service.GetApprovalMissedPunchRequest(
+            var result = await _service.GetApprovalMissedPunchRequest(
                 companyId, regionId, managerId);
             return Ok(result);
         }
@@ -394,5 +396,58 @@ namespace HRMS_Backend.Controllers
 
         #endregion
 
+        // GET: api/Attendance/GetAllPolicies
+        [HttpGet("GetAllPolicies")]
+        public async Task<IActionResult> GetAllPolicies()
+        {
+            var policies = await _policyService.GetAllPoliciesAsync();
+            return Ok(policies);
+        }
+
+        // GET: api/Attendance/GetPolicyById/5
+        [HttpGet("GetPolicyById/{id}")]
+        public async Task<IActionResult> GetPolicyById(int id)
+        {
+            var policy = await _policyService.GetPolicyByIdAsync(id);
+            if (policy == null) return NotFound();
+            return Ok(policy);
+        }
+
+        // POST: api/Attendance/CreatePolicy
+        [HttpPost("CreatePolicy")]
+        public async Task<IActionResult> CreatePolicy([FromForm] CompanyPolicyDto dto)
+        {
+            var createdPolicy = await _policyService.CreatePolicyAsync(dto);
+            return Ok(createdPolicy);
+        }
+
+        // PUT: api/Attendance/UpdatePolicy
+        [HttpPut("UpdatePolicy")]
+        public async Task<IActionResult> UpdatePolicy([FromForm] CompanyPolicyDto dto)
+        {
+            var updatedPolicy = await _policyService.UpdatePolicyAsync(dto);
+            if (updatedPolicy == null) return NotFound();
+            return Ok(updatedPolicy);
+        }
+
+        // DELETE: api/Attendance/DeletePolicy/5
+        [HttpDelete("DeletePolicy/{id}")]
+        public async Task<IActionResult> DeletePolicy(int id)
+        {
+            var result = await _policyService.DeletePolicyAsync(id);
+            if (!result) return NotFound();
+            return Ok(new { message = "Policy deleted successfully" });
+        }
+
+        // GET: api/Attendance/GetCategories?companyId=1&regionId=2
+        [HttpGet("GetCategories")]
+        public async Task<IActionResult> GetCategories(
+            [FromQuery] int companyId,
+            [FromQuery] int regionId)
+        {
+            var categories = await _policyService.GetAllPolicyCategoriesAsync(companyId, regionId);
+            return Ok(categories);
+        }
     }
 }
+    
