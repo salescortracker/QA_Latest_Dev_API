@@ -1,4 +1,5 @@
-﻿using BusinessLayer.DTOs;
+using BusinessLayer.DTOs;
+using BusinessLayer.Implementations;
 using BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,12 +22,12 @@ namespace HRMS_Backend.Controllers
         /// <summary>
         /// Get all assets
         /// </summary>
-        [HttpGet]
-        public async Task<ActionResult<List<AssetDto>>> GetAllAssets()
-        {
-            var assets = await _assetService.GetAllAssetsAsync();
-            return Ok(assets);
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<List<AssetDto>>> GetAllAssets()
+        //{
+        //    var assets = await _assetService.GetAllAssetsAsync();
+        //    return Ok(assets);
+        //}
 
         /// <summary>
         /// Get assets for a specific user
@@ -45,7 +46,7 @@ namespace HRMS_Backend.Controllers
         public async Task<ActionResult<int>> CreateAsset([FromBody] AssetDto assetDto)
         {
             var id = await _assetService.CreateAssetAsync(assetDto);
-            return CreatedAtAction(nameof(GetAllAssets), new { id }, id);
+            return CreatedAtAction(nameof(GetAllAssetStatuses), new { id }, id);
         }
 
         /// <summary>
@@ -69,19 +70,21 @@ namespace HRMS_Backend.Controllers
             if (!success) return NotFound($"Asset with ID {id} not found.");
             return NoContent();
         }
-        /// <summary>
-        /// Get all Status 
-        /// </summary>
-        [HttpGet("statuses")]
-        public async Task<ActionResult<List<AssetStatusDto>>> GetAssetStatuses()
-        {
-            var statuses = await _assetService.GetAllAssetStatusesAsync();
-            return Ok(statuses);
-        }
-        /// <summary>
-        /// Get all active employees (for Asset dropdown)
-        /// </summary>
-        [HttpGet("employees")]
+    /// <summary>
+    /// Get all Status 
+    /// </summary>
+            [HttpGet("asset-status")]
+            public async Task<IActionResult> GetAllAssetStatuses(
+           [FromQuery] int companyId,
+           [FromQuery] int regionId)
+            {
+              var result = await _assetService.GetAllAsync(companyId, regionId);
+              return Ok(result);
+            }
+    /// <summary>
+    /// Get all active employees (for Asset dropdown)
+    /// </summary>
+    [HttpGet("employees")]
         public async Task<ActionResult<List<EmployeeDto>>> GetAllEmployees()
         {
             var employees = await _assetService.GetAllEmployeesAsync();
