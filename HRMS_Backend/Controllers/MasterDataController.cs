@@ -1,4 +1,5 @@
 using BusinessLayer.DTOs;
+using BusinessLayer.Implementations;
 using BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -519,33 +520,49 @@ namespace HRMS_Backend.Controllers
         /// <summary>
         /// Asset Status CRUD APIs
         /// </summary>
-        [HttpGet("asset-status")]
-        public async Task<IActionResult> GetAllAssetStatuses(
-        [FromQuery] int companyId,
-        [FromQuery] int regionId)
-        {
-            var result = await _assetStatusService.GetAllAsync(companyId, regionId);
-            return Ok(result);
-        }
+       
 
-        /// <summary>
-        /// Creates a new asset status
-        /// </summary>
-        [HttpPost("asset-status")]
-        public async Task<IActionResult> CreateAssetStatus([FromBody] AssetStatusDto dto)
-        {
-            var id = await _assetStatusService.CreateAsync(dto);
-            return Ok(id);
-        }
 
-        /// <summary>
-        /// Updates an existing asset status
-        /// </summary>
-        [HttpPut("asset-status/{id}")]
+
+          [HttpGet("statuses")]
+          public async Task<ActionResult<List<AssetStatusDto>>> GetAssetStatuses(int userId)
+          {
+            var statuses = await _assetStatusService.GetAllAssetStatusesAsync(userId);
+            return Ok(statuses);
+          }
+          /// <summary>
+          /// Creates a new asset status
+          /// </summary>
+          [HttpPost("asset-statuscreate")]
+          public async Task<IActionResult> CreateAssetStatus([FromBody] AssetStatusDto dto)
+          {
+
+            if (dto == null)
+              return BadRequest("Invalid request body");
+
+            if (dto.RegionId <= 0 || dto.CompanyId <= 0)
+              return BadRequest("Company and Region required");
+
+
+            try
+            {
+              var id = await _assetStatusService.AddAssetStatusAsync(dto);
+              return Ok(new { id });
+            }
+            catch (Exception ex)
+            {
+              return StatusCode(500, ex.Message);
+            }
+          }
+
+    /// <summary>
+    /// Updates an existing asset status
+    /// </summary>
+        [HttpPut("asset-statusUpdate/{id}")]
         public async Task<IActionResult> UpdateAssetStatus(int id, [FromBody] AssetStatusDto dto)
         {
             dto.AssetStatusId = id;
-            var updated = await _assetStatusService.UpdateAsync(dto);
+            var updated = await _assetStatusService.UpdateAssetStatusAsync(dto);
             return updated ? Ok() : NotFound();
         }
 
@@ -553,10 +570,10 @@ namespace HRMS_Backend.Controllers
         /// <summary>
         /// Deletes (soft delete) an asset status
         /// </summary>
-        [HttpDelete("asset-status/{id}")]
+        [HttpDelete("asset-statusDelete/{id}")]
         public async Task<IActionResult> DeleteAssetStatus(int id)
         {
-            var deleted = await _assetStatusService.DeleteAsync(id);
+            var deleted = await _assetStatusService.DeleteAssetStatusAsync(id);
             return deleted ? Ok() : NotFound();
         }
 

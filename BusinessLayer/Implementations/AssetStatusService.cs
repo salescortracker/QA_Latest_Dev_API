@@ -1,4 +1,4 @@
-﻿using BusinessLayer.DTOs;
+using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
 using DataAccessLayer.DBContext;
 using Microsoft.EntityFrameworkCore;
@@ -19,24 +19,24 @@ namespace BusinessLayer.Implementations
             _context = context;
         }
 
-        public async Task<List<AssetStatusDto>> GetAllAsync(int companyId, int regionId)
-        {
+     
+          public async Task<List<AssetStatusDto>> GetAllAssetStatusesAsync(int userId)
+          {
             return await _context.AssetStatuses
-                .Where(x => !x.IsDeleted && x.CompanyId == companyId && x.RegionId == regionId)
-                .OrderBy(x => x.AssetStatusName)
+                .Where(x => x.IsActive && !x.IsDeleted
+                && x.CreatedBy == userId)
                 .Select(x => new AssetStatusDto
                 {
-                    AssetStatusId = x.AssetStatusId,
-                    CompanyId = x.CompanyId,
-                    RegionId = x.RegionId,
-                    AssetStatusName = x.AssetStatusName,
-                    Description = x.Description,
-                    IsActive = x.IsActive,
+                  AssetStatusId = x.AssetStatusId,
+                  AssetStatusName = x.AssetStatusName,
+                  CompanyId = x.CompanyId,
+                  RegionId = x.RegionId,
+                  Description = x.Description,
+                  IsActive = x.IsActive
                 })
                 .ToListAsync();
-        }
-
-        public async Task<int> CreateAsync(AssetStatusDto dto)
+          }
+    public async Task<int> AddAssetStatusAsync(AssetStatusDto dto)
         {
             // Validate FK references
             var companyExists = await _context.Companies.AnyAsync(c => c.CompanyId == dto.CompanyId);
@@ -45,15 +45,23 @@ namespace BusinessLayer.Implementations
             if (!companyExists || !regionExists)
                 throw new Exception("Invalid CompanyId or RegionId. Ensure they exist in the database.");
 
+              var duplicate = await _context.AssetStatuses.AnyAsync(x =>
+           !x.IsDeleted &&
+           x.AssetStatusName.ToLower() == dto.AssetStatusName.ToLower());
+
+            if (duplicate)
+              throw new Exception("Duplicate Asset Status");
+
             var entity = new AssetStatus
             {
-                CompanyId = dto.CompanyId,
-                RegionId = dto.RegionId,
-                AssetStatusName = dto.AssetStatusName,
-                Description = dto.Description,
-                IsActive = dto.IsActive,
-                IsDeleted = false,
-                CreatedAt = DateTime.UtcNow,
+                      CompanyId = dto.CompanyId,
+                      RegionId = dto.RegionId,
+                      AssetStatusName = dto.AssetStatusName,
+                      Description = dto.Description,
+                      IsActive = dto.IsActive,
+                      IsDeleted = false,
+                      CreatedBy = dto.UserId,
+                      CreatedAt = DateTime.UtcNow,
             };
 
             _context.AssetStatuses.Add(entity);
@@ -62,7 +70,7 @@ namespace BusinessLayer.Implementations
             return entity.AssetStatusId;
         }
 
-        public async Task<bool> UpdateAsync(AssetStatusDto dto)
+        public async Task<bool> UpdateAssetStatusAsync(AssetStatusDto dto)
         {
             var entity = await _context.AssetStatuses
                 .FirstOrDefaultAsync(x => x.AssetStatusId == dto.AssetStatusId && !x.IsDeleted);
@@ -79,7 +87,7 @@ namespace BusinessLayer.Implementations
             return true;
         }
 
-        public async Task<bool> DeleteAsync(int assetStatusId)
+        public async Task<bool> DeleteAssetStatusAsync(int assetStatusId)
         {
             var entity = await _context.AssetStatuses
                 .FirstOrDefaultAsync(x => x.AssetStatusId == assetStatusId && !x.IsDeleted);
