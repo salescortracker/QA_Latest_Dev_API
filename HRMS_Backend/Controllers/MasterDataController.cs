@@ -1,4 +1,5 @@
-﻿using BusinessLayer.DTOs;
+using BusinessLayer.DTOs;
+using BusinessLayer.Implementations;
 using BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,10 @@ namespace HRMS_Backend.Controllers
         private readonly IPolicyCategoryService _policyCategoryService;
         public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService,
             IAssetStatusService assetStatusService, IPolicyCategoryService policyCategoryService)
+        private readonly IExpenseCategoryService _expensecategoryservice;
+        private readonly IAssetStatusService _assetStatusService;
+    private readonly IAccountTypeService _accountTypeService;
+        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService, IAccountTypeService accountTypeService)
         {
             _service = service;
             _designationService = designationService;
@@ -35,6 +40,7 @@ namespace HRMS_Backend.Controllers
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
             _policyCategoryService = policyCategoryService;
+            _accountTypeService = accountTypeService;
         }
         #region PolicyCategory
 
@@ -462,13 +468,51 @@ namespace HRMS_Backend.Controllers
             var result = await _kpiCategoryService.DeleteAsync(id);
             return result.Success ? Ok(result) : NotFound(result);
         }
+    #endregion
+
+
+
+        #region A/C Type
+        [HttpGet("GetAccountTypes")]
+        public async Task<IActionResult> GetAllAccountType(int userId)
+        {
+            var data = await _accountTypeService
+                   .GetAllAccounttypeAsync(userId);
+
+            return Ok(new { data });
+        }
+
+        [HttpPost("CreateAccountType")]
+        public async Task<IActionResult> CreateAccountType(AccountTypeDto dto)
+        {
+          var r = await _accountTypeService.AddAccounttypeAsync(dto);
+          if (r == null) return Ok(new { message = "Duplicate Record Found" });
+          return Ok(new { message = "Created Successfully", data = r });
+        }
+
+        [HttpPost("UpdateAccountType")]
+        public async Task<IActionResult> UpdateAccountType(AccountTypeDto dto)
+        {
+          var r = await _accountTypeService.UpdateAccounttypeAsync(dto);
+          if (r == null) return Ok(new { message = "Duplicate Record Found" });
+          return Ok(new { message = "Updated Successfully", data = r });
+        }
+
+        [HttpPost("DeleteAccountType")]
+        public async Task<IActionResult> DeleteAccountType(int id)
+        {
+          var ok = await _accountTypeService.DeleteAccounttypeAsync(id);
+          if (!ok) return NotFound();
+          return Ok(new { message = "Deleted Successfully" });
+        }
+
         #endregion
-        
-        //---------------------------------Employee Master Details---------------------------------//
-        #region Employee Master Details
+
+    //---------------------------------Employee Master Details---------------------------------//
+    #region Employee Master Details
 
 
-        [HttpGet("GetAllEmployees")]
+    [HttpGet("GetAllEmployees")]
         public async Task<IActionResult> GetAllEmployees()
         {
             var data = await _employeeService.GetAllEmployees();
@@ -520,33 +564,49 @@ namespace HRMS_Backend.Controllers
         /// <summary>
         /// Asset Status CRUD APIs
         /// </summary>
-        [HttpGet("asset-status")]
-        public async Task<IActionResult> GetAllAssetStatuses(
-        [FromQuery] int companyId,
-        [FromQuery] int regionId)
-        {
-            var result = await _assetStatusService.GetAllAsync(companyId, regionId);
-            return Ok(result);
-        }
+       
 
-        /// <summary>
-        /// Creates a new asset status
-        /// </summary>
-        [HttpPost("asset-status")]
-        public async Task<IActionResult> CreateAssetStatus([FromBody] AssetStatusDto dto)
-        {
-            var id = await _assetStatusService.CreateAsync(dto);
-            return Ok(id);
-        }
 
-        /// <summary>
-        /// Updates an existing asset status
-        /// </summary>
-        [HttpPut("asset-status/{id}")]
+
+          [HttpGet("statuses")]
+          public async Task<ActionResult<List<AssetStatusDto>>> GetAssetStatuses(int userId)
+          {
+            var statuses = await _assetStatusService.GetAllAssetStatusesAsync(userId);
+            return Ok(statuses);
+          }
+          /// <summary>
+          /// Creates a new asset status
+          /// </summary>
+          [HttpPost("asset-statuscreate")]
+          public async Task<IActionResult> CreateAssetStatus([FromBody] AssetStatusDto dto)
+          {
+
+            if (dto == null)
+              return BadRequest("Invalid request body");
+
+            if (dto.RegionId <= 0 || dto.CompanyId <= 0)
+              return BadRequest("Company and Region required");
+
+
+            try
+            {
+              var id = await _assetStatusService.AddAssetStatusAsync(dto);
+              return Ok(new { id });
+            }
+            catch (Exception ex)
+            {
+              return StatusCode(500, ex.Message);
+            }
+          }
+
+    /// <summary>
+    /// Updates an existing asset status
+    /// </summary>
+        [HttpPut("asset-statusUpdate/{id}")]
         public async Task<IActionResult> UpdateAssetStatus(int id, [FromBody] AssetStatusDto dto)
         {
             dto.AssetStatusId = id;
-            var updated = await _assetStatusService.UpdateAsync(dto);
+            var updated = await _assetStatusService.UpdateAssetStatusAsync(dto);
             return updated ? Ok() : NotFound();
         }
 
@@ -554,10 +614,10 @@ namespace HRMS_Backend.Controllers
         /// <summary>
         /// Deletes (soft delete) an asset status
         /// </summary>
-        [HttpDelete("asset-status/{id}")]
+        [HttpDelete("asset-statusDelete/{id}")]
         public async Task<IActionResult> DeleteAssetStatus(int id)
         {
-            var deleted = await _assetStatusService.DeleteAsync(id);
+            var deleted = await _assetStatusService.DeleteAssetStatusAsync(id);
             return deleted ? Ok() : NotFound();
         }
 
