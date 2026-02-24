@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.DTOs;
+using BusinessLayer.Implementations;
 using BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,15 +14,16 @@ namespace HRMS_Backend.Controllers
         private readonly ITimesheetService _timesheetService;
         private readonly IMissedPunchService _service;
         private readonly IWorkFromHomeRequestService _workfromhomeservice;
-        public AttendanceController(IShiftAllocationService shiftAllocationService, IClockInOutService clockInOutService, ITimesheetService timesheetService, IMissedPunchService service,IWorkFromHomeRequestService workfromhomeservice)
+        private readonly ICompanyPolicyService _companyPolicyService;
+        public AttendanceController(IShiftAllocationService shiftAllocationService, IClockInOutService clockInOutService, ITimesheetService timesheetService, IMissedPunchService service, IWorkFromHomeRequestService workfromhomeservice, ICompanyPolicyService companyPolicyService)
         {
-            
+
             _shiftAllocationService = shiftAllocationService;
             _clockInOutService = clockInOutService;
             _timesheetService = timesheetService;
             _service = service;
             _workfromhomeservice = workfromhomeservice;
-
+            _companyPolicyService = companyPolicyService;
         }
         #region ShiftAllocation
 
@@ -99,7 +101,7 @@ namespace HRMS_Backend.Controllers
         public async Task<IActionResult> AllocateShift([FromBody] ShiftAllocationDto dto)
         {
             var status = await _shiftAllocationService.AllocateShiftAsync(dto);
-            return   Ok(status) ;
+            return Ok(status);
         }
 
         [HttpPost("UpdateAllocation")]
@@ -172,7 +174,7 @@ namespace HRMS_Backend.Controllers
 
         // 🔹 DELETE: api/ClockInOut/5
         [HttpPost("DeleteClockinOut")]
-        public async Task<IActionResult> DeleteClockinOut([FromQuery]int id)
+        public async Task<IActionResult> DeleteClockinOut([FromQuery] int id)
         {
             var userId = int.Parse(User.FindFirst("UserId")?.Value ?? "0");
 
@@ -288,7 +290,7 @@ namespace HRMS_Backend.Controllers
         public async Task<IActionResult> GetApprovalMissedPunchRequest(
             int companyId, int? regionId, int managerId)
         {
-            var result=await _service.GetApprovalMissedPunchRequest(
+            var result = await _service.GetApprovalMissedPunchRequest(
                 companyId, regionId, managerId);
             return Ok(result);
         }
@@ -394,5 +396,52 @@ namespace HRMS_Backend.Controllers
 
         #endregion
 
+        //--------------------------company policy-------------------------------------//
+
+        #region
+        [HttpPost]
+        [Route("GetAllPolicies")]
+        public async Task<IActionResult> GetAllPolicies()
+        {
+            return Ok(await _companyPolicyService.GetAllPolicies());
+        }
+
+        [HttpPost]
+        [Route("GetPolicyById")]
+        public async Task<IActionResult> GetPolicyById([FromForm] int policyId)
+        {
+            var data = await _companyPolicyService.GetPolicyById(policyId);
+            return Ok(data);
+        }
+
+        [HttpPost]
+        [Route("GetPolicyCategoryDropdown")]
+        public async Task<IActionResult> GetPolicyCategoryDropdown([FromForm] int companyId, [FromForm] int regionId)
+        {
+            var list = await _companyPolicyService.GetPolicyCategoryDropdown(companyId, regionId);
+            return Ok(list);
+        }
+
+        [HttpPost]
+        [Route("CreatePolicy")]
+        public async Task<IActionResult> CreatePolicy([FromForm] CompanyPolicyDto dto)
+        {
+            return Ok(await _companyPolicyService.CreatePolicy(dto));
+        }
+
+        [HttpPost]
+        [Route("UpdatePolicy")]
+        public async Task<IActionResult> UpdatePolicy([FromForm] CompanyPolicyDto dto)
+        {
+            return Ok(await _companyPolicyService.UpdatePolicy(dto));
+        }
+
+        [HttpPost]
+        [Route("DeletePolicy")]
+        public async Task<IActionResult> DeletePolicy([FromForm] int policyId)
+        {
+            return Ok(await _companyPolicyService.DeletePolicy(policyId));
+        }
+        #endregion
     }
 }

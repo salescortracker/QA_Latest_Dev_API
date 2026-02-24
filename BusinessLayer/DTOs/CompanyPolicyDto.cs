@@ -10,7 +10,6 @@ namespace BusinessLayer.DTOs
     public class CompanyPolicyDto
     {
         public int PolicyId { get; set; }
-
         public int CompanyId { get; set; }
         public int RegionId { get; set; }
 
@@ -18,13 +17,12 @@ namespace BusinessLayer.DTOs
         public int CategoryId { get; set; }
         public string? CategoryName { get; set; }
 
-        public DateTime EffectiveDate { get; set; }
-
+        public DateTime EffectiveDate { get; set; }   // OK
         public string? Description { get; set; }
 
-        // File
         public IFormFile? File { get; set; }
         public string? FileName { get; set; }
         public string? FilePath { get; set; }
+
     }
 }
