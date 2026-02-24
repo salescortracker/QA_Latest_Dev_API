@@ -17,8 +17,11 @@ namespace HRMS_Backend.Controllers
         private readonly IEmployeeMasterService _employeeService;
         private readonly ICertificationTypeService _certificationTypeService;
         private readonly ILeaveTypeService _leaveTypeService;
-        private readonly IExpenseCategoryService _expensecategoryservice; private readonly IAssetStatusService _assetStatusService;
-        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService)
+        private readonly IExpenseCategoryService _expensecategoryservice; 
+        private readonly IAssetStatusService _assetStatusService;
+        private readonly IPolicyCategoryService _policyCategoryService;
+        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService,
+            IAssetStatusService assetStatusService, IPolicyCategoryService policyCategoryService)
         {
             _service = service;
             _designationService = designationService;
@@ -31,7 +34,46 @@ namespace HRMS_Backend.Controllers
             _employeeService = employeeService;
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
+            _policyCategoryService = policyCategoryService;
         }
+        #region PolicyCategory
+
+        [HttpGet("policy-category")]
+        public async Task<IActionResult> GetPolicyCategories([FromQuery] int userId)
+        {
+            var result = await _policyCategoryService.GetAll(userId);
+            return Ok(result);
+        }
+
+        [HttpGet("policy-category/{id:int}")]
+        public async Task<IActionResult> GetPolicyCategoryById(int id)
+        {
+            var result = await _policyCategoryService.GetByIdAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPost("CreatePolicyCategory")]
+        public async Task<IActionResult> CreatePolicyCategory([FromBody] CreateUpdatePolicyCategoryDto dto)
+        {
+            var result = await _policyCategoryService.CreateAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("UpdatePolicyCategory")]
+        public async Task<IActionResult> UpdatePolicyCategory([FromBody] CreateUpdatePolicyCategoryDto dto)
+        {
+            var result = await _policyCategoryService.UpdateAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("DeletePolicyCategory")]
+        public async Task<IActionResult> DeletePolicyCategory([FromQuery] int id)
+        {
+            var result = await _policyCategoryService.DeleteAsync(id);
+            return Ok(result);
+        }
+
+        #endregion
         #region Departments
         // ✅ GET ALL (with optional filters later)
         [HttpGet("GetDepartments")]
