@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.DTOs;
+using BusinessLayer.Implementations.Services.Implementation;
 using BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,13 +18,16 @@ namespace HRMS_Backend.Controllers
         private readonly IEmployeeMasterService _employeeService;
         private readonly ICertificationTypeService _certificationTypeService;
         private readonly ILeaveTypeService _leaveTypeService;
+        private readonly IResignationService _resignationService;
+
         private readonly IExpenseCategoryService _expensecategoryservice; private readonly IAssetStatusService _assetStatusService;
-        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService)
+        public MasterDataController(IExpenseCategoryService expenseCategoryservice, IDepartmentService service, IDesignationService designationService, IGenderService genderService, IadminService adminService, ILeaveTypeService leaveTypeService, ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService,
+            IResignationService resignationService)
         {
             _service = service;
             _designationService = designationService;
             _genderService = genderService;
-            _adminService= adminService;
+            _adminService = adminService;
             _logger = logger;
             _expensecategoryservice = expenseCategoryservice;
             _leaveTypeService = leaveTypeService;
@@ -31,6 +35,7 @@ namespace HRMS_Backend.Controllers
             _employeeService = employeeService;
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
+            _resignationService = resignationService;
         }
         #region Departments
         // ✅ GET ALL (with optional filters later)
@@ -41,7 +46,7 @@ namespace HRMS_Backend.Controllers
             {
                 var result = await _service.GetAllAsync();
 
-                if (result == null )
+                if (result == null)
                     return NotFound(new { success = false, message = "No departments found." });
 
                 return Ok(new { success = true, message = "Departments retrieved successfully.", data = result });
@@ -171,7 +176,7 @@ namespace HRMS_Backend.Controllers
             {
                 var result = await _designationService.GetAllAsync();
 
-                if (result == null )
+                if (result == null)
                     return NotFound(new { success = false, message = "No designations found." });
 
                 return Ok(new { success = true, message = "Designations retrieved successfully.", data = result });
@@ -211,7 +216,7 @@ namespace HRMS_Backend.Controllers
 
             try
             {
-               // 🔒 TODO: Replace with logged-in user later
+                // 🔒 TODO: Replace with logged-in user later
                 var result = await _designationService.CreateAsync(dto);
 
                 if (!result.Success)
@@ -235,7 +240,7 @@ namespace HRMS_Backend.Controllers
 
             try
             {
-               // 🔒 TODO: Replace with logged-in user later
+                // 🔒 TODO: Replace with logged-in user later
                 var result = await _designationService.UpdateAsync(id, dto);
 
                 if (!result.Success)
@@ -256,7 +261,7 @@ namespace HRMS_Backend.Controllers
         {
             try
             {
-                 // 🔒 TODO: Replace with JWT user later
+                // 🔒 TODO: Replace with JWT user later
                 var result = await _designationService.SoftDeleteAsync(id);
 
                 if (!result.Success)
@@ -308,12 +313,12 @@ namespace HRMS_Backend.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("GetGenderAll")]
-        public async Task<IActionResult> GetGenderAll(int companyId,int regionId,int userId)
+        public async Task<IActionResult> GetGenderAll(int companyId, int regionId, int userId)
         {
-            var result = await _genderService.GetAllAsync(companyId, regionId,userId);
+            var result = await _genderService.GetAllAsync(companyId, regionId, userId);
 
-            
-            if (result==null)
+
+            if (result == null)
                 return NotFound("No gender records found.");
 
             return Ok(result);
@@ -421,7 +426,7 @@ namespace HRMS_Backend.Controllers
             return result.Success ? Ok(result) : NotFound(result);
         }
         #endregion
-        
+
         //---------------------------------Employee Master Details---------------------------------//
         #region Employee Master Details
 
@@ -529,7 +534,7 @@ namespace HRMS_Backend.Controllers
             var result = await _certificationTypeService
                 .GetAllAsync(companyId, regionId);
 
-            return Ok(result!=null?result.Data:result);
+            return Ok(result != null ? result.Data : result);
         }
 
         [HttpGet("certification-types/{id:int}")]
@@ -558,12 +563,12 @@ namespace HRMS_Backend.Controllers
 
         [HttpPost("UpdateCertificationType")]
         public async Task<IActionResult> UpdateCertificationType(
-           
+
             [FromBody] CreateUpdateCertificationTypeDto dto
             )
         {
             var result = await _certificationTypeService
-                .UpdateAsync( dto);
+                .UpdateAsync(dto);
 
             if (!result.Success)
                 return BadRequest(result);
@@ -667,6 +672,51 @@ namespace HRMS_Backend.Controllers
             var result = await _expensecategoryservice.DeleteAsync(id);
             return Ok(result);
         }
+        #endregion
+
+        //-------------------------------RESIGNATIONMASTER-------------------------------//
+
+        #region Resignations
+
+        [HttpGet("GetResignations")]
+        public IActionResult GetResignations(int companyId, int regionId)
+        {
+            var data = _resignationService.GetAll(companyId, regionId);
+            return Ok(data);
+        }
+
+        [HttpGet("GetResignationById/{id:int}")]
+        public IActionResult GetResignationById(int id)
+        {
+            var data = _resignationService.GetById(id);
+
+            if (data == null)
+                return NotFound();
+
+            return Ok(data);
+        }
+
+        [HttpPost("CreateResignation")]
+        public IActionResult CreateResignation([FromForm] ResignationDto dto, [FromQuery] int userId)
+        {
+            var success = _resignationService.Create(dto, userId);
+            return success ? Ok(new { message = "Created successfully" }) : BadRequest();
+        }
+
+        [HttpPost("UpdateResignation/{id:int}")]
+        public IActionResult UpdateResignation(int id, [FromForm] ResignationDto dto, [FromQuery] int userId)
+        {
+            var success = _resignationService.Update(id, dto, userId);
+            return success ? Ok(new { message = "Updated successfully" }) : NotFound();
+        }
+
+        [HttpPost("DeleteResignation/{id:int}")]
+        public IActionResult DeleteResignation(int id, [FromQuery] int userId)
+        {
+            var success = _resignationService.Delete(id, userId);
+            return success ? Ok(new { message = "Deleted successfully" }) : NotFound();
+        }
+
         #endregion
     }
 }
