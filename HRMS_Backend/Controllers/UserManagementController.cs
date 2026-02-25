@@ -52,6 +52,25 @@ namespace HRMS_Backend.Controllers
             public List<T> DuplicateRecords { get; set; }
         }
 
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
+        {
+            var result = await _userService.SendOtpAsync(dto.Email);
+            return Ok(result);
+        }
+        [HttpPost("verify-otp")]
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDto dto)
+        {
+            var result = await _userService.VerifyOtpAsync(dto.Email, dto.Otp);
+            return Ok(result);
+        }
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            var result = await _userService.ResetPasswordAsync(dto.Email, dto.NewPassword);
+            return Ok(result);
+        }
+
         #region Company Details
         /// <summary>
         /// Retrieves a list of all companies.
