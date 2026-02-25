@@ -17,8 +17,16 @@ namespace HRMS_Backend.Controllers
         private readonly IEmployeeMasterService _employeeService;
         private readonly ICertificationTypeService _certificationTypeService;
         private readonly ILeaveTypeService _leaveTypeService;
+<<<<<<< Updated upstream
         private readonly IExpenseCategoryService _expensecategoryservice; private readonly IAssetStatusService _assetStatusService;
         public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService)
+=======
+        private readonly IExpenseCategoryService _expensecategoryservice;
+        private readonly IAssetStatusService _assetStatusService;
+        private readonly IAccountTypeService _accountTypeService;
+    private readonly IAttachmentTypeService _attachmentTypeService;
+        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IAttachmentTypeService attachmentTypeService, IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService, IAccountTypeService accountTypeService)
+>>>>>>> Stashed changes
         {
             _service = service;
             _designationService = designationService;
@@ -31,6 +39,11 @@ namespace HRMS_Backend.Controllers
             _employeeService = employeeService;
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
+<<<<<<< Updated upstream
+=======
+            _accountTypeService = accountTypeService;
+            _attachmentTypeService = attachmentTypeService;
+>>>>>>> Stashed changes
         }
         #region Departments
         // ✅ GET ALL (with optional filters later)
@@ -519,9 +532,65 @@ namespace HRMS_Backend.Controllers
             return deleted ? Ok() : NotFound();
         }
 
-        #region ===================== CERTIFICATION TYPES =====================
 
-        [HttpGet("certification-types")]
+        #region AttachmentType
+
+        [HttpGet("GetByUserAttachment")]
+        public async Task<IActionResult> GetByUserAttachmentType(int userId)
+        {
+          var data = await _attachmentTypeService.GetAllByUserAttachmentTypeAsync(userId);
+          return Ok(data);
+        }
+
+        [HttpPost("CreateAttachmnet")]
+        public async Task<IActionResult> CreateAttachmentType([FromBody] AttachmentTypeDto dto)
+        {
+          try
+          {
+            var result = await _attachmentTypeService.CreateAttachmentTypeAsync(dto);
+
+            if (!result)
+              return BadRequest("Create failed");
+
+            return Ok("Created successfully");
+          }
+          catch (Exception ex)
+          {
+            return BadRequest(ex.InnerException?.Message ?? ex.Message);
+          }
+        }
+
+    [HttpPut("UpdateAttachmnet")]
+        public async Task<IActionResult> UpdateAttachmentType([FromBody] AttachmentTypeDto dto)
+        {
+          var result = await _attachmentTypeService.UpdateAttachmentTypeAsync(dto);
+          if (!result) return BadRequest("Update failed");
+          return Ok();
+        }
+
+        [HttpDelete("DeleteAttachmnet/{id}")]
+        public async Task<IActionResult> DeleteAttachmentType(int id)
+        {
+          var result = await _attachmentTypeService.DeleteAttachmentTypeAsync(id);
+          if (!result) return BadRequest("Delete failed");
+          return Ok();
+        }
+
+        [HttpGet("GetAttachmentByCategory")]
+        public async Task<IActionResult> GetAttachmentByCategory( string category)
+        {
+          var data = await _attachmentTypeService.GetByCategoryAsync(category);
+          return Ok(data);
+        }
+
+
+    #endregion
+
+
+
+    #region ===================== CERTIFICATION TYPES =====================
+
+    [HttpGet("certification-types")]
         public async Task<IActionResult> GetCertificationTypes(
             int companyId,
             int regionId)

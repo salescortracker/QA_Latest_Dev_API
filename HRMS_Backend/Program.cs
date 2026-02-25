@@ -58,6 +58,8 @@ builder.Services.AddScoped<IShiftAllocationService, ShiftAllocationService>();
 builder.Services.AddScoped<ILeaveTypeService, LeaveTypeService>();
 builder.Services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
 builder.Services.AddControllers();
+builder.Services.AddScoped<IAttachmentTypeService, AttachmentTypeService>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -70,6 +72,11 @@ builder.Services.AddScoped<IMissedPunchService,MissedPunchService>();
 builder.Services.AddScoped<IWorkFromHomeRequestService, WorkFromHomeRequestService>();
 builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
 builder.Services.AddScoped<IRecruitmentService, RecruitmentService>();
+<<<<<<< Updated upstream
+=======
+builder.Services.AddScoped<IHelpdeskService, HelpdeskService>();
+
+>>>>>>> Stashed changes
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
