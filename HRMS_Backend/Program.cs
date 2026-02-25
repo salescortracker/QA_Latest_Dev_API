@@ -1,5 +1,6 @@
 
 using BusinessLayer.Implementations;
+using BusinessLayer.Implementations.Services.Implementation;
 using BusinessLayer.Interfaces;
 using DataAccessLayer.DBContext;
 using DataAccessLayer.Repositories.GeneralRepository;
@@ -71,6 +72,7 @@ builder.Services.AddScoped<IMissedPunchService,MissedPunchService>();
 builder.Services.AddScoped<IWorkFromHomeRequestService, WorkFromHomeRequestService>();
 builder.Services.AddScoped<IEmployeeMasterService, EmployeeMasterService>();
 builder.Services.AddScoped<IRecruitmentService, RecruitmentService>();
+builder.Services.AddScoped<IResignationService, ResignationService>();
 builder.Services.AddScoped<IHelpdeskService, HelpdeskService>();
 var app = builder.Build();
 
