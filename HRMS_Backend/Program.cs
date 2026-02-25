@@ -1,4 +1,4 @@
-﻿
+
 using BusinessLayer.Implementations;
 using BusinessLayer.Interfaces;
 using BusinessLayer.Services;
@@ -58,6 +58,7 @@ builder.Services.AddScoped<IClockInOutService, ClockInOutService>();
 builder.Services.AddScoped<IShiftAllocationService, ShiftAllocationService>();
 builder.Services.AddScoped<ILeaveTypeService, LeaveTypeService>();
 builder.Services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
+builder.Services.AddScoped<IAccountTypeService, AccountTypeService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
