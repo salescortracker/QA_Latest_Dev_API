@@ -1,4 +1,4 @@
-﻿using BusinessLayer.DTOs;
+using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
 using DataAccessLayer.DBContext;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,24 @@ namespace BusinessLayer.Implementations
             _context = context;
         }
 
-        public async Task<int> CreateAssetAsync(AssetDto assetDto)
+        public async Task<List<AssetStatusDto>> GetAllAsync(int companyId, int regionId)
+        {
+          return await _context.AssetStatuses
+              .Where(x => !x.IsDeleted && x.CompanyId == companyId && x.RegionId == regionId)
+              .OrderBy(x => x.AssetStatusName)
+              .Select(x => new AssetStatusDto
+              {
+                AssetStatusId = x.AssetStatusId,
+                CompanyId = x.CompanyId,
+                RegionId = x.RegionId,
+                AssetStatusName = x.AssetStatusName,
+                Description = x.Description,
+                IsActive = x.IsActive,
+              })
+              .ToListAsync();
+        }
+
+    public async Task<int> CreateAssetAsync(AssetDto assetDto)
         {
             // Get reporting manager for selected employee
             var employee = await _context.Users
@@ -118,40 +135,40 @@ namespace BusinessLayer.Implementations
             return true;
         }
 
-        public async Task<List<AssetDto>> GetAllAssetsAsync()
-        {
-            return await _context.Assets
-                .Select(a => new AssetDto
-                {
-                    AssetID = a.AssetId,
-                    CompanyID = a.CompanyId,
-                    RegionID = a.RegionId,
-                    UserID = a.UserId,
-                    EmployeeName = a.EmployeeName,
-                    AssetName = a.AssetName,
-                    AssetCode = a.AssetCode,
-                    AssetLocation = a.AssetLocation,
-                    AssetCost = a.AssetCost,
-                    CurrencyCode = a.CurrencyCode,
-                    AssetDescription = a.AssetDescription,
-                    AssetModel = a.AssetModel,
-                    PurchaseOrder = a.PurchaseOrder,
-                    WarrantyStartDate = a.WarrantyStartDate.HasValue
-                        ? a.WarrantyStartDate.Value.ToDateTime(TimeOnly.MinValue)
-                        : null,
-                    WarrantyEndDate = a.WarrantyEndDate.HasValue
-                        ? a.WarrantyEndDate.Value.ToDateTime(TimeOnly.MinValue)
-                        : null,
-                    AssetReturnDate = a.AssetReturnDate.HasValue
-                        ? a.AssetReturnDate.Value.ToDateTime(TimeOnly.MinValue)
-                        : null,
-                    AssetStatusID = a.AssetStatusId,
-                    ReportingTo = a.ReportingTo,
-                    ApprovalStatus = a.ApprovalStatus
-                })
-                .OrderByDescending(x => x.AssetID)
-                .ToListAsync();
-        }
+        //public async Task<List<AssetDto>> GetAllAssetsAsync()
+        //{
+        //    return await _context.Assets
+        //        .Select(a => new AssetDto
+        //        {
+        //            AssetID = a.AssetId,
+        //            CompanyID = a.CompanyId,
+        //            RegionID = a.RegionId,
+        //            UserID = a.UserId,
+        //            EmployeeName = a.EmployeeName,
+        //            AssetName = a.AssetName,
+        //            AssetCode = a.AssetCode,
+        //            AssetLocation = a.AssetLocation,
+        //            AssetCost = a.AssetCost,
+        //            CurrencyCode = a.CurrencyCode,
+        //            AssetDescription = a.AssetDescription,
+        //            AssetModel = a.AssetModel,
+        //            PurchaseOrder = a.PurchaseOrder,
+        //            WarrantyStartDate = a.WarrantyStartDate.HasValue
+        //                ? a.WarrantyStartDate.Value.ToDateTime(TimeOnly.MinValue)
+        //                : null,
+        //            WarrantyEndDate = a.WarrantyEndDate.HasValue
+        //                ? a.WarrantyEndDate.Value.ToDateTime(TimeOnly.MinValue)
+        //                : null,
+        //            AssetReturnDate = a.AssetReturnDate.HasValue
+        //                ? a.AssetReturnDate.Value.ToDateTime(TimeOnly.MinValue)
+        //                : null,
+        //            AssetStatusID = a.AssetStatusId,
+        //            ReportingTo = a.ReportingTo,
+        //            ApprovalStatus = a.ApprovalStatus
+        //        })
+        //        .OrderByDescending(x => x.AssetID)
+        //        .ToListAsync();
+        //}
 
         public async Task<List<AssetDto>> GetAssetsByUserIdAsync(int userId)
         {
@@ -188,17 +205,7 @@ namespace BusinessLayer.Implementations
                 .ToListAsync();
         }
 
-        public async Task<List<AssetStatusDto>> GetAllAssetStatusesAsync()
-        {
-            return await _context.AssetStatuses
-                .Where(x => x.IsActive && !x.IsDeleted)
-                .Select(x => new AssetStatusDto
-                {
-                    AssetStatusId = x.AssetStatusId,
-                    AssetStatusName = x.AssetStatusName
-                })
-                .ToListAsync();
-        }
+        
         public async Task<List<EmployeeDto>> GetAllEmployeesAsync()
         {
             return await _context.Users
