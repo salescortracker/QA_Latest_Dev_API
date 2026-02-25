@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 
+
 namespace BusinessLayer.Implementations
 {
     public class UserService : IUserService
@@ -456,6 +457,97 @@ namespace BusinessLayer.Implementations
             {
                 Console.WriteLine($"Email sending failed: {ex.Message}");
             }
+        }
+
+        public async Task<ApiResponse<bool>> SendOtpAsync(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (user == null)
+                return new ApiResponse<bool>(false, "Invalid Email", false);
+
+            var otp = new Random().Next(100000, 999999).ToString();
+
+            user.RefreshToken = otp;
+            user.RefreshTokenExpiry = DateTime.UtcNow.AddMinutes(5);
+
+            await _context.SaveChangesAsync();
+
+            await SendOtpEmailAsync(user, otp);
+
+            return new ApiResponse<bool>(true, "OTP sent successfully", true);
+        }
+
+        public async Task<ApiResponse<bool>> VerifyOtpAsync(string email, string otp)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(x => x.Email == email);
+
+            if (user == null)
+                return new ApiResponse<bool>(false, "Invalid Email", false);
+
+            if (user.RefreshToken != otp ||
+                user.RefreshTokenExpiry < DateTime.UtcNow)
+            {
+                return new ApiResponse<bool>(false, "Invalid or Expired OTP", false);
+            }
+
+            return new ApiResponse<bool>(true, "OTP Verified", true);
+        }
+        public async Task<ApiResponse<bool>> ResetPasswordAsync(string email, string newPassword)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(x => x.Email == email);
+
+            if (user == null)
+                return new ApiResponse<bool>(false, "Invalid Email", false);
+
+            user.PasswordHash = newPassword;
+            user.Passwordchanged = true;
+
+            user.RefreshToken = null;
+            user.RefreshTokenExpiry = null;
+
+            await _context.SaveChangesAsync();
+
+            await SendPasswordChangedEmailAsync(user, newPassword);
+
+            return new ApiResponse<bool>(true, "Password reset successful", true);
+        }
+
+        private async Task SendOtpEmailAsync(DataAccessLayer.DBContext.User user, string otp)
+        {
+            string subject = "Your OTP for Password Reset";
+
+            string body = $@"
+        <h3>Hello {user.FullName},</h3>
+        <p>Your OTP for password reset is:</p>
+        <h2>{otp}</h2>
+        <p>This OTP is valid for 5 minutes.</p>
+        <br/>
+        <p>Regards,<br/>HR Team</p>
+    ";
+
+            using var smtpClient = new SmtpClient
+            {
+                Host = _configuration["Smtp:Host"],
+                Port = int.Parse(_configuration["Smtp:Port"]),
+                EnableSsl = true,
+                Credentials = new NetworkCredential(
+                    _configuration["Smtp:User"],
+                    _configuration["Smtp:Password"]
+                )
+            };
+
+            var mail = new MailMessage(
+                _configuration["Smtp:FromEmail"],
+                user.Email,
+                subject,
+                body
+            )
+            { IsBodyHtml = true };
+
+            await smtpClient.SendMailAsync(mail);
         }
 
     }
