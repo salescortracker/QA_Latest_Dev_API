@@ -69,6 +69,8 @@ public partial class HRMSContext : DbContext
 
     public virtual DbSet<CountryMaster> CountryMasters { get; set; }
 
+    public virtual DbSet<CurrencyMaster> CurrencyMasters { get; set; }
+
     public virtual DbSet<Department> Departments { get; set; }
 
     public virtual DbSet<Designation> Designations { get; set; }
@@ -119,6 +121,8 @@ public partial class HRMSContext : DbContext
 
     public virtual DbSet<EmployeeResignation> EmployeeResignations { get; set; }
 
+    public virtual DbSet<EmployeeSalary> EmployeeSalaries { get; set; }
+
     public virtual DbSet<EmployeeW4> EmployeeW4s { get; set; }
 
     public virtual DbSet<Event> Events { get; set; }
@@ -142,6 +146,8 @@ public partial class HRMSContext : DbContext
     public virtual DbSet<Gender> Genders { get; set; }
 
     public virtual DbSet<HelpDeskCategory> HelpDeskCategories { get; set; }
+
+    public virtual DbSet<HolidayList> HolidayLists { get; set; }
 
     public virtual DbSet<KpiCategory> KpiCategories { get; set; }
 
@@ -167,7 +173,17 @@ public partial class HRMSContext : DbContext
 
     public virtual DbSet<NewsCategory> NewsCategories { get; set; }
 
+    public virtual DbSet<PayrollDetail> PayrollDetails { get; set; }
+
+    public virtual DbSet<PayrollTransaction> PayrollTransactions { get; set; }
+
+    public virtual DbSet<PerformanceKpi> PerformanceKpis { get; set; }
+
+    public virtual DbSet<PerformanceReview> PerformanceReviews { get; set; }
+
     public virtual DbSet<PolicyCategory> PolicyCategories { get; set; }
+
+    public virtual DbSet<Priority> Priorities { get; set; }
 
     public virtual DbSet<ProjectStatus> ProjectStatuses { get; set; }
 
@@ -178,6 +194,12 @@ public partial class HRMSContext : DbContext
     public virtual DbSet<ResignationTypeMaster> ResignationTypeMasters { get; set; }
 
     public virtual DbSet<RoleMaster> RoleMasters { get; set; }
+
+    public virtual DbSet<SalaryComponent> SalaryComponents { get; set; }
+
+    public virtual DbSet<SalaryStructure> SalaryStructures { get; set; }
+
+    public virtual DbSet<SalaryStructureComponent> SalaryStructureComponents { get; set; }
 
     public virtual DbSet<ShiftAllocation> ShiftAllocations { get; set; }
 
@@ -192,6 +214,8 @@ public partial class HRMSContext : DbContext
     public virtual DbSet<TaxSetting> TaxSettings { get; set; }
 
     public virtual DbSet<TaxType> TaxTypes { get; set; }
+
+    public virtual DbSet<Ticket> Tickets { get; set; }
 
     public virtual DbSet<Timesheet> Timesheets { get; set; }
 
@@ -494,6 +518,7 @@ public partial class HRMSContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
             entity.Property(e => e.RegionId).HasColumnName("RegionID");
+            entity.Property(e => e.UserId).HasColumnName("userId");
 
             entity.HasOne(d => d.Company).WithMany(p => p.BloodGroups)
                 .HasForeignKey(d => d.CompanyId)
@@ -532,7 +557,13 @@ public partial class HRMSContext : DbContext
             entity.Property(e => e.AnyOffers)
                 .HasMaxLength(200)
                 .IsUnicode(false);
+            entity.Property(e => e.CandidateName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.CurrentCtc)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.CurrentSalary).HasColumnType("decimal(12, 2)");
             entity.Property(e => e.Department)
                 .HasMaxLength(100)
@@ -580,6 +611,9 @@ public partial class HRMSContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Skills)
                 .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.Technology)
+                .HasMaxLength(100)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.Stage).WithMany(p => p.Candidates)
@@ -813,6 +847,7 @@ public partial class HRMSContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.Title).HasMaxLength(200);
             entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+            entity.Property(e => e.UserId).HasColumnName("userId");
         });
 
         modelBuilder.Entity<CompanyPolicy>(entity =>
@@ -831,7 +866,7 @@ public partial class HRMSContext : DbContext
             entity.HasOne(d => d.Category).WithMany(p => p.CompanyPolicies)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_CompanyPolicies_Category");
+                .HasConstraintName("FK_CompanyPolicies_PolicyCategory");
         });
 
         modelBuilder.Entity<CountryMaster>(entity =>
@@ -851,6 +886,25 @@ public partial class HRMSContext : DbContext
             entity.Property(e => e.RegionId).HasColumnName("RegionID");
         });
 
+        modelBuilder.Entity<CurrencyMaster>(entity =>
+        {
+            entity.HasKey(e => e.CurrencyId).HasName("PK__Currency__14470B1077B465FB");
+
+            entity.ToTable("CurrencyMaster", "adminmaster");
+
+            entity.Property(e => e.CurrencyId).HasColumnName("CurrencyID");
+            entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.CurrencyCode)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.CurrencyName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.RegionId).HasColumnName("RegionID");
+        });
+
         modelBuilder.Entity<Department>(entity =>
         {
             entity.HasKey(e => e.DepartmentId).HasName("PK__Departme__B2079BCDDF3B4BDF");
@@ -862,12 +916,11 @@ public partial class HRMSContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getutcdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.CreatedBy).HasMaxLength(100);
             entity.Property(e => e.Description).HasMaxLength(150);
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
-            entity.Property(e => e.ModifiedBy).HasMaxLength(100);
             entity.Property(e => e.RegionId).HasColumnName("RegionID");
+            entity.Property(e => e.UserId).HasColumnName("userId");
 
             entity.HasOne(d => d.Company).WithMany(p => p.Departments)
                 .HasForeignKey(d => d.CompanyId)
@@ -1568,6 +1621,31 @@ public partial class HRMSContext : DbContext
                 .HasDefaultValue("Pending");
         });
 
+        modelBuilder.Entity<EmployeeSalary>(entity =>
+        {
+            entity.HasKey(e => e.EmployeeSalaryId).HasName("PK__Employee__09720DBF02877FBF");
+
+            entity.ToTable("EmployeeSalary", "payroll");
+
+            entity.Property(e => e.CompanyId).HasMaxLength(50);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(100);
+            entity.Property(e => e.Ctc)
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("CTC");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedBy).HasMaxLength(100);
+            entity.Property(e => e.RegionId).HasMaxLength(50);
+
+            entity.HasOne(d => d.Structure).WithMany(p => p.EmployeeSalaries)
+                .HasForeignKey(d => d.StructureId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EmployeeSalary_Structure");
+        });
+
         modelBuilder.Entity<EmployeeW4>(entity =>
         {
             entity.HasKey(e => e.W4Id).HasName("PK__employee__6B594179A7F0BA66");
@@ -1945,6 +2023,35 @@ public partial class HRMSContext : DbContext
                 .HasConstraintName("FK_HelpDeskCategory_Region");
         });
 
+        modelBuilder.Entity<HolidayList>(entity =>
+        {
+            entity.HasKey(e => e.HolidayListId).HasName("PK__HolidayL__1173F0DA2DA8B38E");
+
+            entity.ToTable("HolidayList", "adminmaster");
+
+            entity.Property(e => e.HolidayListId).HasColumnName("HolidayListID");
+            entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.HolidayListName)
+                .HasMaxLength(150)
+                .IsUnicode(false);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.RegionId).HasColumnName("RegionID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.HolidayLists)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_HolidayList_Company");
+
+            entity.HasOne(d => d.Region).WithMany(p => p.HolidayLists)
+                .HasForeignKey(d => d.RegionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_HolidayList_Region");
+        });
+
         modelBuilder.Entity<KpiCategory>(entity =>
         {
             entity.HasKey(e => e.KpiCategoryId).HasName("PK__KpiCateg__B31BD9B8DE04E60E");
@@ -1956,9 +2063,6 @@ public partial class HRMSContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Description)
-                .HasMaxLength(300)
-                .IsUnicode(false);
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.KpiCategoryName)
                 .HasMaxLength(150)
@@ -2258,6 +2362,90 @@ public partial class HRMSContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
         });
 
+        modelBuilder.Entity<PayrollDetail>(entity =>
+        {
+            entity.HasKey(e => e.PayrollDetailId).HasName("PK__PayrollD__010127C914C583A2");
+
+            entity.ToTable("PayrollDetails", "payroll");
+
+            entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.CompanyId).HasMaxLength(50);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(100);
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedBy).HasMaxLength(100);
+            entity.Property(e => e.RegionId).HasMaxLength(50);
+
+            entity.HasOne(d => d.Component).WithMany(p => p.PayrollDetails)
+                .HasForeignKey(d => d.ComponentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollDetails_Component");
+
+            entity.HasOne(d => d.Payroll).WithMany(p => p.PayrollDetails)
+                .HasForeignKey(d => d.PayrollId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollDetails_Payroll");
+        });
+
+        modelBuilder.Entity<PayrollTransaction>(entity =>
+        {
+            entity.HasKey(e => e.PayrollId).HasName("PK__PayrollT__99DFC6728A5C4A8E");
+
+            entity.ToTable("PayrollTransactions", "payroll");
+
+            entity.Property(e => e.CompanyId).HasMaxLength(50);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(100);
+            entity.Property(e => e.GrossSalary).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedBy).HasMaxLength(100);
+            entity.Property(e => e.NetSalary).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.RegionId).HasMaxLength(50);
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .HasDefaultValue("Draft");
+            entity.Property(e => e.TotalDeductions).HasColumnType("decimal(18, 2)");
+        });
+
+        modelBuilder.Entity<PerformanceKpi>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Performa__3214EC070EC89C3C");
+
+            entity.ToTable("PerformanceKPI");
+
+            entity.Property(e => e.Achieved).HasMaxLength(200);
+            entity.Property(e => e.Kpiname)
+                .HasMaxLength(300)
+                .HasColumnName("KPIName");
+            entity.Property(e => e.Score).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.Target).HasMaxLength(200);
+            entity.Property(e => e.Weightage).HasColumnType("decimal(10, 2)");
+        });
+
+        modelBuilder.Entity<PerformanceReview>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Performa__3214EC077AF3C410");
+
+            entity.ToTable("PerformanceReview");
+
+            entity.Property(e => e.AppraisalYear).HasMaxLength(20);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.Department).HasMaxLength(200);
+            entity.Property(e => e.DepartmentProject).HasMaxLength(200);
+            entity.Property(e => e.Designation).HasMaxLength(200);
+            entity.Property(e => e.DocumentEvidence).HasMaxLength(500);
+            entity.Property(e => e.FinalScore).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.PerformanceCycle).HasMaxLength(50);
+            entity.Property(e => e.ProbationStatus).HasMaxLength(50);
+            entity.Property(e => e.ProgressType).HasMaxLength(50);
+            entity.Property(e => e.Status).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<PolicyCategory>(entity =>
         {
             entity.HasKey(e => e.PolicyCategoryId).HasName("PK__PolicyCa__C0F36D7D9C8A5431");
@@ -2288,6 +2476,39 @@ public partial class HRMSContext : DbContext
                 .HasForeignKey(d => d.RegionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PolicyCategory_Region");
+        });
+
+        modelBuilder.Entity<Priority>(entity =>
+        {
+            entity.HasKey(e => e.PriorityId).HasName("PK__Priority__D0A3D0DE5221A78C");
+
+            entity.ToTable("Priority", "adminmaster");
+
+            entity.Property(e => e.PriorityId).HasColumnName("PriorityID");
+            entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Description)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.PriorityName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.RegionId).HasColumnName("RegionID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Priorities)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Priority_Company");
+
+            entity.HasOne(d => d.Region).WithMany(p => p.Priorities)
+                .HasForeignKey(d => d.RegionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Priority_Region");
         });
 
         modelBuilder.Entity<ProjectStatus>(entity =>
@@ -2405,8 +2626,77 @@ public partial class HRMSContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
             entity.Property(e => e.ModifiedBy).HasMaxLength(100);
+            entity.Property(e => e.RegionId).HasColumnName("regionId");
             entity.Property(e => e.RoleDescription).HasMaxLength(255);
             entity.Property(e => e.RoleName).HasMaxLength(100);
+            entity.Property(e => e.UserId).HasColumnName("userId");
+        });
+
+        modelBuilder.Entity<SalaryComponent>(entity =>
+        {
+            entity.HasKey(e => e.ComponentId).HasName("PK__SalaryCo__D79CF04EECB87881");
+
+            entity.ToTable("SalaryComponents", "payroll");
+
+            entity.Property(e => e.CalculationType).HasMaxLength(20);
+            entity.Property(e => e.CompanyId).HasMaxLength(50);
+            entity.Property(e => e.ComponentName).HasMaxLength(100);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(100);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedBy).HasMaxLength(100);
+            entity.Property(e => e.PercentageOf).HasMaxLength(20);
+            entity.Property(e => e.RegionId).HasMaxLength(50);
+            entity.Property(e => e.Type).HasMaxLength(20);
+        });
+
+        modelBuilder.Entity<SalaryStructure>(entity =>
+        {
+            entity.HasKey(e => e.StructureId).HasName("PK__SalarySt__4A1C07ABB1B739A0");
+
+            entity.ToTable("SalaryStructures", "payroll");
+
+            entity.Property(e => e.CompanyId).HasMaxLength(50);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(100);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedBy).HasMaxLength(100);
+            entity.Property(e => e.RegionId).HasMaxLength(50);
+            entity.Property(e => e.StructureName).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<SalaryStructureComponent>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SalarySt__3214EC073007B699");
+
+            entity.ToTable("SalaryStructureComponents", "payroll");
+
+            entity.Property(e => e.CalculationType).HasMaxLength(20);
+            entity.Property(e => e.CompanyId).HasMaxLength(50);
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CreatedBy).HasMaxLength(100);
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.ModifiedBy).HasMaxLength(100);
+            entity.Property(e => e.RegionId).HasMaxLength(50);
+            entity.Property(e => e.Value).HasColumnType("decimal(18, 2)");
+
+            entity.HasOne(d => d.Component).WithMany(p => p.SalaryStructureComponents)
+                .HasForeignKey(d => d.ComponentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Component");
+
+            entity.HasOne(d => d.Structure).WithMany(p => p.SalaryStructureComponents)
+                .HasForeignKey(d => d.StructureId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Structure");
         });
 
         modelBuilder.Entity<ShiftAllocation>(entity =>
@@ -2452,6 +2742,7 @@ public partial class HRMSContext : DbContext
             entity.Property(e => e.ShiftName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.UserId).HasColumnName("userId");
         });
 
         modelBuilder.Entity<StageMaster>(entity =>
@@ -2532,6 +2823,31 @@ public partial class HRMSContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.TaxTypeName).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<Ticket>(entity =>
+        {
+            entity.HasKey(e => e.TicketId).HasName("PK__Tickets__712CC6078DD5E155");
+
+            entity.ToTable("Tickets", "HelpDesk");
+
+            entity.Property(e => e.ApprovedAt).HasColumnType("datetime");
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.FileName).HasMaxLength(255);
+            entity.Property(e => e.FilePath).HasMaxLength(500);
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+            entity.Property(e => e.Subject).HasMaxLength(200);
+            entity.Property(e => e.TicketNumber).HasMaxLength(20);
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Tickets)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Tickets_HelpDeskCategory");
+
+            entity.HasOne(d => d.Priority).WithMany(p => p.Tickets)
+                .HasForeignKey(d => d.PriorityId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Tickets_Priority");
         });
 
         modelBuilder.Entity<Timesheet>(entity =>
@@ -2623,8 +2939,6 @@ public partial class HRMSContext : DbContext
 
             entity.ToTable("Users", "UM");
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D105344FC457C0").IsUnique();
-
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.CompanyId).HasColumnName("CompanyID");
             entity.Property(e => e.CompanyName)
@@ -2634,6 +2948,7 @@ public partial class HRMSContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.DepartmentId).HasColumnName("departmentId");
+            entity.Property(e => e.Designation).HasMaxLength(100);
             entity.Property(e => e.Email)
                 .HasMaxLength(120)
                 .IsUnicode(false);

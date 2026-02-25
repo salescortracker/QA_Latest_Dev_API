@@ -300,10 +300,10 @@ namespace HRMS_Backend.Controllers
         }
         #endregion
         #region User Details
-        [HttpGet("GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers([FromQuery] int userCompanyId)
+        [HttpGet("GetAllUsers/{userId}")]
+        public async Task<IActionResult> GetAllUsers(int userId)
         {
-            var users = await _userService.GetAllUsersAsync(userCompanyId);
+            var users = await _userService.GetAllUsersAsync(userId);
             return Ok(users);
         }
 
