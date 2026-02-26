@@ -21,7 +21,10 @@ namespace HRMS_Backend.Controllers
         private readonly IExpenseCategoryService _expensecategoryservice;
         private readonly IAssetStatusService _assetStatusService;
     private readonly IAccountTypeService _accountTypeService;
-        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService, IAccountTypeService accountTypeService)
+        private readonly IHolidayListService _holidayListService;
+        private readonly IWeekoffService _weekoffService;
+        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService, 
+            IAccountTypeService accountTypeService, IHolidayListService holidayListService, IWeekoffService weekoffService)
         {
             _service = service;
             _designationService = designationService;
@@ -35,7 +38,85 @@ namespace HRMS_Backend.Controllers
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
             _accountTypeService = accountTypeService;
+            _holidayListService = holidayListService;
+            _weekoffService = weekoffService;
         }
+        #region Weekoff
+
+        [HttpGet("weekoff-list")]
+        public async Task<IActionResult> GetWeekoffList([FromQuery] int userId)
+        {
+            var result = await _weekoffService.GetAll(userId);
+            return Ok(result);
+        }
+
+        [HttpGet("weekoff-list/{id:int}")]
+        public async Task<IActionResult> GetWeekoffById(int id)
+        {
+            var result = await _weekoffService.GetByIdAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPost("CreateWeekoff")]
+        public async Task<IActionResult> CreateWeekoff([FromBody] WeekoffDto dto)
+        {
+            var result = await _weekoffService.CreateAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("UpdateWeekoff")]
+        public async Task<IActionResult> UpdateWeekoff([FromBody] WeekoffDto dto)
+        {
+            var result = await _weekoffService.UpdateAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("DeleteWeekoff")]
+        public async Task<IActionResult> DeleteWeekoff([FromQuery] int id)
+        {
+            var result = await _weekoffService.DeleteAsync(id);
+            return Ok(result);
+        }
+
+        #endregion
+        #region HolidayList
+
+        [HttpGet("holiday-list")]
+        public async Task<IActionResult> GetHolidayList([FromQuery] int userId)
+        {
+            var result = await _holidayListService.GetAll(userId);
+            return Ok(result);
+        }
+
+        [HttpGet("holiday-list/{id:int}")]
+        public async Task<IActionResult> GetHolidayById(int id)
+        {
+            var result = await _holidayListService.GetByIdAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPost("CreateHoliday")]
+        public async Task<IActionResult> CreateHoliday([FromBody] CreateUpdateHolidayListDto dto)
+        {
+            var result = await _holidayListService.CreateAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("UpdateHoliday")]
+        public async Task<IActionResult> UpdateHoliday([FromBody] CreateUpdateHolidayListDto dto)
+        {
+            var result = await _holidayListService.UpdateAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("DeleteHoliday")]
+        public async Task<IActionResult> DeleteHoliday([FromQuery] int id)
+        {
+            var result = await _holidayListService.DeleteAsync(id);
+            return Ok(result);
+        }
+
+        #endregion
         #region Departments
         // ✅ GET ALL (with optional filters later)
         [HttpGet("GetDepartments")]
