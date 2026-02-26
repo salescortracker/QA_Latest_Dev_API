@@ -87,32 +87,80 @@ namespace BusinessLayer.Implementations
                 if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                     throw new ArgumentException("Username or password cannot be empty.");
 
-                var userData = await (from u in _context.Users
-                                      join r in _context.RoleMasters on u.RoleId equals r.RoleId
-                                      join reg in _context.Regions on u.RegionId equals reg.RegionId
-                                      join c in _context.Companies on u.CompanyId equals c.CompanyId
-                                      where u.Email == username && u.PasswordHash == password
-                                      select new
-                                      {
-                                          u.UserId,
-                                          u.Email,
-                                          u.FullName,
-                                          RoleName = r.RoleName,
-                                          RegionName = reg.RegionName,
-                                          CompanyName = c.CompanyName,
-                                          roleId=u.RoleId,
-                                          companyId=u.CompanyId,
-                                          regionId=u.RegionId,
-                                          employeeCode=u.EmployeeCode,
-                                          DepartmentId=u.DepartmentId,
-                                          personalEmail=u.Email,
-                                          userLoginStatus=u.Userloginstatus,
-                                          paswordChanged=u.Passwordchanged,
-                                          reportingTo=u.ReportingTo
-                                      })
-                                     .FirstOrDefaultAsync();
+                //var userData = await (from u in _context.Users
+                //                      join r in _context.RoleMasters on u.RoleId equals r.RoleId
+                //                      join reg in _context.Regions on u.RegionId equals reg.RegionId
+                //                      join c in _context.Companies on u.CompanyId equals c.CompanyId
+                //                      where u.Email == username && u.PasswordHash == password
+                //                      select new
+                //                      {
+                //                          u.UserId,
+                //                          u.Email,
+                //                          u.FullName,
+                //                          RoleName = r.RoleName,
+                //                          RegionName = reg.RegionName,
+                //                          CompanyName = c.CompanyName,
+                //                          roleId=u.RoleId,
+                //                          companyId=u.CompanyId,
+                //                          regionId=u.RegionId,
+                //                          employeeCode=u.EmployeeCode,
+                //                          DepartmentId=u.DepartmentId,
+                //                          personalEmail=u.Email,
+                //                          userLoginStatus=u.Userloginstatus,
+                //                          paswordChanged=u.Passwordchanged,
+                //                          reportingTo=u.ReportingTo,
+                //                          designation = u.Designation,
+                //                      })
+                //                     .FirstOrDefaultAsync();
+                var userData = await (
+    from u in _context.Users
+    join r in _context.RoleMasters on u.RoleId equals r.RoleId
+    join reg in _context.Regions on u.RegionId equals reg.RegionId
+    join c in _context.Companies on u.CompanyId equals c.CompanyId
+    join d in _context.Departments on u.DepartmentId equals d.DepartmentId into deptJoin
+    from d in deptJoin.DefaultIfEmpty()
+    join des in _context.Designations
+        on u.DepartmentId equals des.DesignationId into desJoin
+    from des in desJoin.DefaultIfEmpty()
 
-                
+
+    join rm in _context.Users on u.ReportingTo equals rm.UserId into managerJoin
+    from rm in managerJoin.DefaultIfEmpty()
+
+    where u.Email == username && u.PasswordHash == password
+
+    select new
+    {
+        u.UserId,
+        u.Email,
+        u.FullName,
+
+        RoleName = r.RoleName,
+        RegionName = reg.RegionName,
+        CompanyName = c.CompanyName,
+
+        roleId = u.RoleId,
+        companyId = u.CompanyId,
+        regionId = u.RegionId,
+        employeeCode = u.EmployeeCode,
+
+        DepartmentId = u.DepartmentId,
+        DepartmentName = d.Description, // 🔥 STRING
+
+        ReportingManagerId = u.ReportingTo,
+        ReportingManagerName = rm.FullName, // 🔥 STRING
+
+        DesignationId = u.Designation,
+        designation = u.Designation, // if stored as string in Users table
+
+        personalEmail = u.Email,
+        userLoginStatus = u.Userloginstatus,
+        paswordChanged = u.Passwordchanged
+    })
+.FirstOrDefaultAsync();
+
+
+
                 var loginStatus = await _context.Users.FirstOrDefaultAsync(u => u.Email == username);
                 loginStatus.Userloginstatus = true;
                 _context.Users.Update(loginStatus);
