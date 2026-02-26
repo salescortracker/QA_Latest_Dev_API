@@ -3,23 +3,46 @@ using BusinessLayer.Interfaces;
 using DataAccessLayer.DBContext;
 using DataAccessLayer.Repositories.GeneralRepository;
 using Microsoft.EntityFrameworkCore;
+using SkiaSharp;
 
 namespace BusinessLayer.Implementations
 {
     public class RoleMasterService : IRoleMasterService
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public RoleMasterService(IUnitOfWork unitOfWork)
+        private readonly HRMSContext context;
+        public RoleMasterService(IUnitOfWork unitOfWork, HRMSContext _context)
         {
             _unitOfWork = unitOfWork;
+            context = _context;
         }
 
         // Get all roles
-        public async Task<IEnumerable<RoleMasterDto>> GetAllRolesAsync()
+        public async Task<IEnumerable<RoleMasterDto>> GetAllRolesAsync(int userId)
         {
-            var roles = await _unitOfWork.Repository<RoleMaster>().GetAllAsync();
-            return roles.Select(r => MapToDto(r));
+            var roles = await (
+                from r in context.RoleMasters
+                where r.UserId == userId
+                join c in context.Companies on r.CompanyId equals c.CompanyId into rc
+                from company in rc.DefaultIfEmpty()
+
+                join reg in context.Regions on r.RegionId equals reg.RegionId into rr
+                from region in rr.DefaultIfEmpty()
+
+                select new RoleMasterDto
+                {
+                    RoleId = r.RoleId,
+                    RoleName = r.RoleName ?? "",
+                    RoleDescription = r.RoleDescription ?? "",
+                    IsActive = r.IsActive ?? false,
+                    CompanyId = r.CompanyId,
+                    RegionId = r.RegionId,
+                    CompanyName = company != null ? company.CompanyName : "",
+                    RegionName = region != null ? region.RegionName : ""
+                }
+            ).ToListAsync();
+
+            return roles;
         }
 
         // Get role by ID
@@ -40,6 +63,9 @@ namespace BusinessLayer.Implementations
                     RoleDescription = dto.RoleDescription,
                     IsActive = dto.IsActive,
                     CreatedBy = dto.CreatedBy,
+                    CompanyId = dto.CompanyId, 
+                    RegionId = dto.RegionId,
+                    UserId = dto.UserId,
                     CreatedAt = DateTime.Now
                 };
 

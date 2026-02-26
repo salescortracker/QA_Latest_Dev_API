@@ -9,7 +9,7 @@ namespace BusinessLayer.Interfaces
 {
     public interface IRoleMasterService
     {
-        Task<IEnumerable<RoleMasterDto>> GetAllRolesAsync();
+        Task<IEnumerable<RoleMasterDto>> GetAllRolesAsync(int userId);
         Task<RoleMasterDto?> GetRoleByIdAsync(int id);
         Task<RoleMasterDto> AddRoleAsync(RoleMasterDto dto);
         Task<RoleMasterDto> UpdateRoleAsync(int id, RoleMasterDto dto);

@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.DTOs;
 using BusinessLayer.Interfaces;
 using DataAccessLayer.DBContext;
+using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,23 +24,27 @@ namespace BusinessLayer.Implementations
         //              SHIFT MASTER SERVICES
         // ======================================================
 
-        public async Task<IEnumerable<ShiftMasterDto>> GetAllShiftsAsync()
+        public async Task<IEnumerable<ShiftMasterDto>> GetAllShiftsAsync(int userId)
         {
             return await _context.ShiftMasters
+                .Where(x => x.UserId == userId)
                 .Select(x => new ShiftMasterDto
                 {
                     ShiftID = x.ShiftId,
                     ShiftName = x.ShiftName,
-                    ShiftStartTime = x.ShiftStartTime.ToTimeSpan(),
-                    ShiftEndTime = x.ShiftEndTime.ToTimeSpan(),
+                    ShiftStartTime = x.ShiftStartTime.ToString("HH:mm"), 
+                    ShiftEndTime = x.ShiftEndTime.ToString("HH:mm"),
                     GraceTime = x.GraceTime,
+                    CompanyName = x.CompanyId != null ? _context.Companies.Where(c => c.CompanyId == x.CompanyId).FirstOrDefault().CompanyName : null,
+                    RegionName = x.RegionId != null ? _context.Regions.Where(r => r.RegionId == x.RegionId).FirstOrDefault().RegionName : null,
                     IsActive = x.IsActive,
                     CompanyID = x.CompanyId,
                     RegionID = x.RegionId,
                     CreatedAt = x.CreatedAt,
                     CreatedBy = x.CreatedBy,
                     ModifiedAt = x.ModifiedAt,
-                    ModifiedBy = x.ModifiedBy
+                    ModifiedBy = x.ModifiedBy,
+                    UserId = x.UserId
                 }).ToListAsync();
         }
 
@@ -51,8 +56,8 @@ namespace BusinessLayer.Implementations
                 {
                     ShiftID = x.ShiftId,
                     ShiftName = x.ShiftName,
-                    ShiftStartTime = x.ShiftStartTime.ToTimeSpan(),
-                    ShiftEndTime = x.ShiftEndTime.ToTimeSpan(),
+                    ShiftStartTime = x.ShiftStartTime.ToString("HH:mm"),
+                    ShiftEndTime = x.ShiftEndTime.ToString("HH:mm"),
                     GraceTime = x.GraceTime,
                     IsActive = x.IsActive,
                     CompanyID = x.CompanyId,
@@ -60,28 +65,37 @@ namespace BusinessLayer.Implementations
                     CreatedAt = x.CreatedAt,
                     CreatedBy = x.CreatedBy,
                     ModifiedAt = x.ModifiedAt,
-                    ModifiedBy = x.ModifiedBy
+                    ModifiedBy = x.ModifiedBy,
+                    UserId = x.UserId
                 }).FirstOrDefaultAsync();
         }
 
         public async Task<bool> AddShiftAsync(ShiftMasterDto dto)
         {
+            if (!TimeOnly.TryParse(dto.ShiftStartTime, out var startTime))
+                throw new ArgumentException("Invalid ShiftStartTime");
+
+            if (!TimeOnly.TryParse(dto.ShiftEndTime, out var endTime))
+                throw new ArgumentException("Invalid ShiftEndTime");
+
             var entity = new ShiftMaster
             {
                 ShiftName = dto.ShiftName,
-                ShiftStartTime = TimeOnly.FromTimeSpan(dto.ShiftStartTime),
-                ShiftEndTime = TimeOnly.FromTimeSpan(dto.ShiftEndTime),
+                ShiftStartTime = startTime,
+                ShiftEndTime = endTime,
                 GraceTime = dto.GraceTime,
                 CompanyId = dto.CompanyID,
                 RegionId = dto.RegionID,
-                IsActive = true,
+                IsActive = dto.IsActive,
                 CreatedAt = DateTime.Now,
-                CreatedBy = dto.CreatedBy
+                CreatedBy = dto.UserId,
+                UserId = dto.UserId
             };
 
             _context.ShiftMasters.Add(entity);
             return await _context.SaveChangesAsync() > 0;
         }
+
 
         public async Task<bool> UpdateShiftAsync(ShiftMasterDto dto)
         {
@@ -89,11 +103,12 @@ namespace BusinessLayer.Implementations
             if (entity == null) return false;
 
             entity.ShiftName = dto.ShiftName;
-            entity.ShiftStartTime = TimeOnly.FromTimeSpan(dto.ShiftStartTime);
-            entity.ShiftEndTime = TimeOnly.FromTimeSpan(dto.ShiftEndTime);
+            entity.ShiftStartTime = TimeOnly.Parse(dto.ShiftStartTime);
+            entity.ShiftEndTime = TimeOnly.Parse(dto.ShiftEndTime);
             entity.GraceTime = dto.GraceTime;
             entity.ModifiedAt = DateTime.Now;
             entity.ModifiedBy = dto.ModifiedBy;
+            entity.UserId = dto.UserId;
 
             return await _context.SaveChangesAsync() > 0;
         }
@@ -123,6 +138,19 @@ namespace BusinessLayer.Implementations
 
             entity.IsActive = false;
             return await _context.SaveChangesAsync() > 0;
+        }
+        public async Task<IEnumerable<ShiftMasterDto>> GetShiftsForDropdownAsync(int companyId, int regionId)
+        {
+            return await _context.ShiftMasters
+                .Where(x => x.CompanyId == companyId && x.RegionId == regionId && x.IsActive)
+                .Select(x => new ShiftMasterDto
+                {
+                    ShiftID = x.ShiftId,
+                    ShiftName = x.ShiftName,
+                    ShiftStartTime = x.ShiftStartTime.ToString("HH:mm"),
+                    ShiftEndTime = x.ShiftEndTime.ToString("HH:mm")
+                })
+                .ToListAsync();
         }
 
         // ======================================================
