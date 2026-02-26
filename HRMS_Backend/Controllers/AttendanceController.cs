@@ -26,9 +26,9 @@ namespace HRMS_Backend.Controllers
         #region ShiftAllocation
 
         [HttpGet("GetAllShifts")]
-        public async Task<IActionResult> GetAllShifts()
+        public async Task<IActionResult> GetAllShifts(int userId)
         {
-            var data = await _shiftAllocationService.GetAllShiftsAsync();
+            var data = await _shiftAllocationService.GetAllShiftsAsync(userId);
             return Ok(data);
         }
 
@@ -43,22 +43,34 @@ namespace HRMS_Backend.Controllers
         [HttpPost("AddShift")]
         public async Task<IActionResult> AddShift([FromBody] ShiftMasterDto dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var status = await _shiftAllocationService.AddShiftAsync(dto);
-            return status ? Ok("Shift added successfully") : BadRequest("Failed to add shift");
+
+            if (status)
+                return Ok(new { success = true });
+
+            return BadRequest("Failed");
         }
+
+
 
         [HttpPut("UpdateShift")]
         public async Task<IActionResult> UpdateShift([FromBody] ShiftMasterDto dto)
         {
             var status = await _shiftAllocationService.UpdateShiftAsync(dto);
-            return status ? Ok("Shift updated successfully") : NotFound("Shift not found");
+            return status ? Ok(status) : NotFound("Shift not found");
         }
 
         [HttpDelete("DeleteShift/{shiftId}")]
         public async Task<IActionResult> DeleteShift(int shiftId)
         {
             var status = await _shiftAllocationService.DeleteShiftAsync(shiftId);
-            return status ? Ok("Shift deleted successfully") : NotFound("Shift not found");
+            if (status)
+                return Ok(new { success = true, message = "Shift deleted successfully" });
+            else
+                return NotFound(new { success = false, message = "Shift not found" });
         }
 
         [HttpPut("ActivateShift/{shiftId}")]
@@ -73,6 +85,16 @@ namespace HRMS_Backend.Controllers
         {
             var status = await _shiftAllocationService.DeactivateShiftAsync(shiftId);
             return status ? Ok("Shift deactivated") : NotFound("Shift not found");
+        }
+
+        [HttpGet("GetShiftsForDropdown")]
+        public async Task<IActionResult> GetShiftsForDropdown([FromQuery] int companyId, [FromQuery] int regionId)
+        {
+            if (companyId == 0 || regionId == 0)
+                return BadRequest("CompanyId and RegionId are required.");
+
+            var shifts = await _shiftAllocationService.GetShiftsForDropdownAsync(companyId, regionId);
+            return Ok(shifts);
         }
 
 
