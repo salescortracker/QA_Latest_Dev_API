@@ -21,7 +21,9 @@ namespace HRMS_Backend.Controllers
         private readonly IExpenseCategoryService _expensecategoryservice;
         private readonly IAssetStatusService _assetStatusService;
     private readonly IAccountTypeService _accountTypeService;
-        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService, IAccountTypeService accountTypeService)
+        private readonly IPriorityService _priorityService;
+        public MasterDataController(IExpenseCategoryService expenseCategoryservice,IDepartmentService service, IDesignationService designationService, IGenderService genderService,IadminService adminService, ILeaveTypeService leaveTypeService,  ILogger<MasterDataController> logger, IKpiCategoryService kpiCategoryService, IEmployeeMasterService employeeService, ICertificationTypeService certificationTypeService, IAssetStatusService assetStatusService,
+            IAccountTypeService accountTypeService, IPriorityService priorityService)
         {
             _service = service;
             _designationService = designationService;
@@ -35,7 +37,49 @@ namespace HRMS_Backend.Controllers
             _certificationTypeService = certificationTypeService;
             _assetStatusService = assetStatusService;
             _accountTypeService = accountTypeService;
+            _priorityService = priorityService;
         }
+        #region Priority
+        // =====================================================
+        // PRIORITY
+        // =====================================================
+
+        [HttpGet("priorities")]
+        public async Task<IActionResult> GetPriorities([FromQuery] int userId)
+        {
+            var result = await _priorityService.GetAll(userId);
+            return Ok(result);
+        }
+
+        [HttpGet("priorities/{id:int}")]
+        public async Task<IActionResult> GetPriorityById(int id)
+        {
+            var result = await _priorityService.GetByIdAsync(id);
+            return Ok(result);
+        }
+
+        [HttpPost("CreatePriority")]
+        public async Task<IActionResult> CreatePriority([FromBody] PriorityDto dto)
+        {
+            var result = await _priorityService.CreateAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("UpdatePriority")]
+        public async Task<IActionResult> UpdatePriority([FromBody] PriorityDto dto)
+        {
+            var result = await _priorityService.UpdateAsync(dto);
+            return Ok(result);
+        }
+
+        [HttpPost("DeletePriority")]
+        public async Task<IActionResult> DeletePriority([FromQuery] int id)
+        {
+            var result = await _priorityService.DeleteAsync(id);
+            return result.Success ? Ok(result) : NotFound(result);
+        }
+
+        #endregion
         #region Departments
         // ✅ GET ALL (with optional filters later)
         [HttpGet("GetDepartments")]
