@@ -11,6 +11,7 @@ namespace BusinessLayer.Interfaces
   public interface IAccountTypeService
   {
     Task<ApiResponse<IEnumerable<AccountTypeDto>>> GetAllAccounttypeAsync(int userId);
+    Task<ApiResponse<IEnumerable<AccountTypeDto>>> GetAllAccounttypeNameAsync(int companyId, int regionId);
     Task<AccountTypeDto?> GetByIdAccounttypeAsync(int id);
     Task<AccountTypeDto> AddAccounttypeAsync(AccountTypeDto dto);
     Task<AccountTypeDto> UpdateAccounttypeAsync(AccountTypeDto dto);
