@@ -43,6 +43,10 @@ namespace HRMS_Backend.Controllers
         {
             public string EntityName { get; set; }
             public List<object> Data { get; set; }
+            public int? UserId { get; set; }
+
+
+
         }
         public class BulkInsertResult<T>
         {
@@ -152,58 +156,47 @@ namespace HRMS_Backend.Controllers
                 switch (request.EntityName.ToLower())
                 {
                     case "company":
-
-                        var companies = new List<CompanyDto>();
-
-                        foreach (var item in request.Data)
                         {
-                            // Handle both stringified and object JSON
-                            CompanyDto? company = null;
+                            var companies = new List<CompanyDto>();
 
-                            switch (item)
+                            foreach (var item in request.Data)
                             {
-                                case string jsonString:
-                                    company = JsonConvert.DeserializeObject<CompanyDto>(jsonString);
-                                    break;
+                                CompanyDto? company = null;
 
-                                case JObject jobj:
-                                    company = jobj.ToObject<CompanyDto>();
-                                    break;
+                                switch (item)
+                                {
+                                    case string jsonString:
+                                        company = JsonConvert.DeserializeObject<CompanyDto>(jsonString);
+                                        break;
 
-                                case JsonElement jsonElement:
-                                    if (jsonElement.ValueKind == JsonValueKind.String)
-                                    {
-                                        var innerJson = jsonElement.GetString();
-                                        if (!string.IsNullOrWhiteSpace(innerJson))
-                                            company = JsonConvert.DeserializeObject<CompanyDto>(innerJson);
-                                    }
-                                    else
-                                    {
+                                    case JObject jobj:
+                                        company = jobj.ToObject<CompanyDto>();
+                                        break;
+
+                                    case JsonElement jsonElement:
                                         var json = jsonElement.GetRawText();
                                         company = JsonConvert.DeserializeObject<CompanyDto>(json);
-                                    }
-                                    break;
+                                        break;
+                                }
+
+                                if (company != null)
+                                {
+                                    company.userId = request.UserId;
+                                    companies.Add(company);
+                                }
                             }
 
-                            if (company != null)
-                                companies.Add(company);
+                            var result = await _companyService.AddCompaniesAsync(companies);
+
+                            return Ok(new
+                            {
+                                Success = true,
+                                Message = $"{result.Count()} companies inserted successfully.",
+                                Summary = result
+                            });
                         }
 
-                        if (!companies.Any())
-                            return BadRequest(new { Success = false, Message = "Failed to parse company data. Invalid JSON format." });
-
-                        // ✅ Call service layer
-                        var result = await _companyService.AddCompaniesAsync(companies);
-
-                        return Ok(new
-                        {
-                            Success = true,
-                            Message = $"{result.Count()} companies inserted successfully. {result.Count()} duplicate(s) skipped.",
-                            Summary = result
-                        });
-
-                    // Add more entity cases as needed
-                    
+                  
 
                     default:
                         return BadRequest(new { Success = false, Message = "Unsupported entity type." });
